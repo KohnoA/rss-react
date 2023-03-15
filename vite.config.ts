@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
@@ -8,6 +10,17 @@ export default defineConfig({
   resolve: {
     alias: {
       src: '/src',
+    },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.ts',
+    coverage: {
+      enabled: true,
+      provider: 'c8',
+      all: true,
+      reporter: ['text', 'json', 'html'],
     },
   },
 });
