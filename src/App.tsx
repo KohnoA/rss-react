@@ -1,16 +1,8 @@
 import './styles/global.scss';
-import Main from './pages/Main/Main';
-import About from './pages/About/About';
-import NotFound from './pages/NotFound/NotFound';
+import AppRouter from './components/AppRouter/AppRouter';
 
 function App() {
-  return (
-    <>
-      <Main />
-      <About />
-      <NotFound />
-    </>
-  );
+  return <AppRouter />;
 }
 
 export default App;
