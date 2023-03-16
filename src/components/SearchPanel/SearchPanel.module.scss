@@ -1,8 +1,7 @@
 .search {
   position: relative;
   display: flex;
-  width: 25%;
-  min-width: 360px;
+  max-width: 360px;
 
   margin: 0 auto;
   margin-bottom: 50px;
@@ -46,6 +45,7 @@
 
   &__clean {
     align-self: center;
+    flex-shrink: 0;
 
     width: 20px;
     height: 20px;
