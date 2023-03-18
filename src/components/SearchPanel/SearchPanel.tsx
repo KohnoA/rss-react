@@ -22,17 +22,13 @@ export default class SearchPanel extends Component<unknown, SearchPanelState> {
     localStorage.setItem('search', this.state.value);
   }
 
-  handleSubmit(event: React.FormEvent): void {
-    event.preventDefault();
-  }
-
   render() {
     return (
       <form
         className={styles.search}
         action="#"
         method="GET"
-        onSubmit={this.handleSubmit}
+        onSubmit={(event) => event.preventDefault()}
         data-testid="search-panel"
       >
         <input
