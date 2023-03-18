@@ -7,7 +7,7 @@ export default class About extends Component {
       <div className="container page" data-testid="page-about">
         <h2 className={styles.about__title}>About</h2>
 
-        <p className={styles.about__description}>
+        <p className={styles.about__description} data-testid="about-description">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat provident ullam inventore
           distinctio velit ducimus, quis dolorem voluptatum, optio ut eius sequi architecto
           repellendus. Ullam temporibus ipsum accusantium, quod in laudantium repellendus odio
