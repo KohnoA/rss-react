@@ -6,6 +6,7 @@ describe('testing About component', () => {
     render(<About />);
 
     expect(screen.getByTestId('page-about')).toBeInTheDocument();
+    expect(screen.getByText(/About/i)).toBeInTheDocument();
     expect(screen.getByTestId('about-description')).toBeInTheDocument();
   });
 });

@@ -6,5 +6,6 @@ describe('testing NotFound component', () => {
     render(<NotFound />);
 
     expect(screen.getByTestId('page-not-found')).toBeInTheDocument();
+    expect(screen.getByText(/page not found/i)).toBeInTheDocument();
   });
 });
