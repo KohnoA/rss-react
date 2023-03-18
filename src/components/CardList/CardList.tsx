@@ -22,7 +22,7 @@ export default class CardList extends Component<unknown, CardListState> {
 
   render() {
     return (
-      <div className={styles.cardList__list}>
+      <div className={styles.cardList__list} data-testid="card-list">
         {this.state.cardsData ? (
           this.state.cardsData.map((item) => <Card key={item.id} data={item} />)
         ) : (
