@@ -1,5 +1,4 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import App from 'src/App';
 import Navigation from './Navigation';
@@ -17,7 +16,7 @@ describe('testing Navigation component', () => {
     expect(screen.getByTestId('nav-about-link')).toBeInTheDocument();
   });
 
-  it('route transitions should work correctly', async () => {
+  it('route transitions should work correctly', () => {
     render(
       <MemoryRouter>
         <App />
@@ -27,9 +26,9 @@ describe('testing Navigation component', () => {
     const mainLink = screen.getByTestId('nav-main-link');
     const aboutLink = screen.getByTestId('nav-about-link');
 
-    await userEvent.click(aboutLink);
+    fireEvent.click(aboutLink);
     expect(screen.getByTestId('page-about')).toBeInTheDocument();
-    await userEvent.click(mainLink);
+    fireEvent.click(mainLink);
     expect(screen.getByTestId('page-main')).toBeInTheDocument();
   });
 });
