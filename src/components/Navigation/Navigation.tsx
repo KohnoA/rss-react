@@ -26,6 +26,15 @@ export default class Navigation extends Component {
               About
             </Link>
           </li>
+          <li>
+            <Link
+              to={AppRoutes.form}
+              className={styles.navigation__link}
+              data-testid="nav-form-link"
+            >
+              Form
+            </Link>
+          </li>
         </ul>
       </nav>
     );

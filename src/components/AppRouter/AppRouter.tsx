@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Main from 'src/pages/Main/Main';
 import About from 'src/pages/About/About';
 import NotFound from 'src/pages/NotFound/NotFound';
+import Form from 'src/pages/Form/Form';
 import { AppRoutes } from 'src/constants/AppRoutes';
 
 export default class AppRouter extends Component {
@@ -11,6 +12,7 @@ export default class AppRouter extends Component {
       <Routes>
         <Route path={AppRoutes.main} element={<Main />} />
         <Route path={AppRoutes.about} element={<About />} />
+        <Route path={AppRoutes.form} element={<Form />} />
         <Route path={AppRoutes.notFound} element={<NotFound />} />
       </Routes>
     );
