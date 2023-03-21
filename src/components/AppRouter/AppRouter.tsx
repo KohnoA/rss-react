@@ -1,19 +1,14 @@
 import { Component } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Main from 'src/pages/Main/Main';
-import About from 'src/pages/About/About';
-import NotFound from 'src/pages/NotFound/NotFound';
-import Form from 'src/pages/Form/Form';
-import { AppRoutes } from 'src/constants/AppRoutes';
+import { APP_ROUTES } from 'src/constants/appRoutes';
 
 export default class AppRouter extends Component {
   render() {
     return (
       <Routes>
-        <Route path={AppRoutes.main} element={<Main />} />
-        <Route path={AppRoutes.about} element={<About />} />
-        <Route path={AppRoutes.form} element={<Form />} />
-        <Route path={AppRoutes.notFound} element={<NotFound />} />
+        {APP_ROUTES.map((route) => (
+          <Route key={route.id} path={route.link} element={route.component} />
+        ))}
       </Routes>
     );
   }
