@@ -5,14 +5,14 @@ import { IProduct } from 'src/types/IProduct';
 import { PRODUCTS_DATA } from 'src/constants/productsData';
 
 interface CardListState {
-  cardsData: IProduct[] | null;
+  cardsData: IProduct[];
 }
 
 export default class CardList extends Component<unknown, CardListState> {
   constructor(props: unknown) {
     super(props);
     this.state = {
-      cardsData: null,
+      cardsData: [],
     };
   }
 
