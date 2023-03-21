@@ -2,7 +2,7 @@ import { Component } from 'react';
 import styles from './CardList.module.scss';
 import Card from '../Card/Card';
 import { IProduct } from 'src/types/IProduct';
-import { getProducts } from 'src/utils/getProducts';
+import { PRODUCTS_DATA } from 'src/constants/constants';
 
 interface CardListState {
   cardsData: IProduct[] | null;
@@ -16,8 +16,8 @@ export default class CardList extends Component<unknown, CardListState> {
     };
   }
 
-  async componentDidMount(): Promise<void> {
-    this.setState({ cardsData: await getProducts() });
+  componentDidMount(): void {
+    this.setState({ cardsData: PRODUCTS_DATA });
   }
 
   render() {

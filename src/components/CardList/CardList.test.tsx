@@ -70,7 +70,7 @@ describe('testing CardList component', () => {
 
     await waitFor(() => {
       const cardsData = screen.getAllByTestId('card');
-      expect(cardsData.length).toBe(3);
+      expect(cardsData.length).toBe(12);
     });
   });
 });
