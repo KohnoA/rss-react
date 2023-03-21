@@ -2,7 +2,7 @@ import { Component } from 'react';
 import styles from './CardList.module.scss';
 import Card from '../Card/Card';
 import { IProduct } from 'src/types/IProduct';
-import { PRODUCTS_DATA } from 'src/constants/constants';
+import { PRODUCTS_DATA } from 'src/constants/productsData';
 
 interface CardListState {
   cardsData: IProduct[] | null;
