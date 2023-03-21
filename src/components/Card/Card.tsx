@@ -13,21 +13,23 @@ export default class Card extends Component<CardProps> {
   }
 
   render() {
+    const { image, title, category, price, rating } = this.props.data;
+
     return (
       <div className={styles.card} data-testid="card">
         <span
           className={styles.card__image}
-          style={{ backgroundImage: `url(${this.props.data.image})` }}
+          style={{ backgroundImage: `url(${image})` }}
           data-testid="card-image"
         />
 
-        <p className={styles.card__title}>{this.props.data.title}</p>
-        <p className={styles.card__category}>{this.props.data.category}</p>
-        <p className={styles.card__price}>&#8364;{this.props.data.price}</p>
+        <p className={styles.card__title}>{title}</p>
+        <p className={styles.card__category}>{category}</p>
+        <p className={styles.card__price}>&#8364;{price}</p>
 
         <div className={styles.card__rating}>
-          <span data-testid="card-rate">Rate: {this.props.data.rating.rate}</span>
-          <span data-testid="card-count">Count: {this.props.data.rating.count}</span>
+          <span data-testid="card-rate">Rate: {rating.rate}</span>
+          <span data-testid="card-count">Count: {rating.count}</span>
         </div>
 
         <Button text="Buy Now" additionalClasses={styles.card__button} />
