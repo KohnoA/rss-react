@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import styles from './CreateCard.module.scss';
 import Button from '../UI/Button/Button';
+import { CATEGORIES_OF_PRODUCTS } from 'src/constants/constants';
 
 export default class CreateCard extends Component {
   submitHandler(event: React.FormEvent): void {
@@ -10,66 +11,85 @@ export default class CreateCard extends Component {
   render() {
     return (
       <form className={styles.createCard} action="#" onSubmit={this.submitHandler}>
-        <label className={styles.createCard__item}>
-          Title:
-          <input type="text" placeholder="IPhone X" />
-        </label>
+        <div className={styles.createCard__item}>
+          <label htmlFor="title" className={styles.createCard__label}>
+            Product name:
+          </label>
+          <input
+            id="title"
+            className={styles.createCard__input}
+            type="text"
+            placeholder="IPhone X"
+          />
+        </div>
 
-        <label className={styles.createCard__item}>
-          Price:
-          <input type="number" />
-        </label>
+        <div className={styles.createCard__item}>
+          <label htmlFor="price" className={styles.createCard__label}>
+            Price (&#8364;):
+          </label>
+          <input
+            id="price"
+            className={styles.createCard__input}
+            type="number"
+            placeholder="49.99"
+          />
+        </div>
 
-        <label className={styles.createCard__item}>
-          Count:
-          <input type="number" />
-        </label>
+        <div className={styles.createCard__item}>
+          <label htmlFor="rate" className={styles.createCard__label}>
+            Rate:
+          </label>
+          <input id="rate" className={styles.createCard__input} type="number" placeholder="4.5" />
+        </div>
 
-        <label className={styles.createCard__item}>
-          Rate:
-          <input type="number" />
-        </label>
+        <div className={styles.createCard__item}>
+          <label htmlFor="date" className={styles.createCard__label}>
+            Date of purchase:
+          </label>
+          <input id="date" className={styles.createCard__input} type="date" />
+        </div>
 
-        <label className={styles.createCard__item}>
-          Date of purchase:
-          <input type="date" />
-        </label>
-
-        <label htmlFor="category" className={styles.createCard__item}>
-          Category:
-          <select id="category">
-            <option>men&apos;s clothing</option>
-            <option>jewelery</option>
-            <option>electronics</option>
+        <div className={styles.createCard__item}>
+          <label htmlFor="category" className={styles.createCard__label}>
+            Category:
+          </label>
+          <select className={styles.createCard__input} id="category">
+            {CATEGORIES_OF_PRODUCTS.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
           </select>
-        </label>
+        </div>
 
-        <label className={styles.createCard__item}>
-          Photo:
-          <input type="file" />
-        </label>
-
-        <div>
-          <p>Product condition:</p>
-          <label>
-            <input name="form-task" type="radio" value="new" /> New
+        <div className={styles.createCard__item}>
+          <label htmlFor="image" className={styles.createCard__label}>
+            Photo:
           </label>
+          <input id="image" className={styles.createCard__input} type="file" accept="image/*" />
+        </div>
 
-          <label>
-            <input name="form-task" type="radio" value="used" /> Used
+        <div className={styles.createCard__another}>
+          <p className={styles.createCard__another_caption}>Tags:</p>
+          <label className={styles.createCard__another_item}>
+            <input type="checkbox" /> I want to sell urgently.
+          </label>
+          <label className={styles.createCard__another_item}>
+            <input type="checkbox" /> Bargaining possible
           </label>
         </div>
 
-        <div className={styles.createCard__agreement}>
-          <label>
-            <input type="checkbox" /> I agree with the privacy policy.
+        <div className={styles.createCard__another}>
+          <p className={styles.createCard__another_caption}>Product condition:</p>
+          <label className={styles.createCard__another_item}>
+            <input name="condition" type="radio" value="new" /> New
           </label>
-          <label>
-            <input type="checkbox" /> Yes, I want to be notified of updates.
+          <label className={styles.createCard__another_item}>
+            <input name="condition" type="radio" value="used" /> Used
           </label>
         </div>
 
-        <Button additionalClasses={styles.createCard__create} text="Create" />
+        <Button additionalClasses={styles.createCard__create} text="Create New Card" />
       </form>
     );
   }
