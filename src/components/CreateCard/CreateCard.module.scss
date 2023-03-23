@@ -28,6 +28,8 @@
 }
 
 .formItem {
+  position: relative;
+
   display: flex;
   flex-direction: column;
 
@@ -53,5 +55,22 @@
     &:focus {
       border: 2px solid #a9a9a9;
     }
+  }
+
+  &__input_error {
+    border: 2px solid rgba(255, 43, 43, 0.8);
+
+    &:hover,
+    &:focus {
+      border: 2px solid rgba(255, 43, 43, 0.8);
+    }
+  }
+
+  &__errorMessage {
+    position: absolute;
+    top: 0;
+    right: 5px;
+
+    color: rgba(255, 43, 43, 0.8);
   }
 }

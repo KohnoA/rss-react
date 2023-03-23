@@ -1,4 +1,6 @@
 .group {
+  position: relative;
+
   display: flex;
   flex-direction: column;
 
@@ -13,5 +15,17 @@
   &__item {
     margin-bottom: 5px;
     cursor: pointer;
+  }
+
+  &__error {
+    border-bottom: 2px solid rgba(255, 43, 43, 0.8);
+  }
+
+  &__errorMessage {
+    position: absolute;
+    top: 0;
+    right: 5px;
+
+    color: rgba(255, 43, 43, 0.8);
   }
 }

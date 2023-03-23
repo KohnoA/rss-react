@@ -6,7 +6,11 @@ import SelectItem from './SelectItem/SelectItem';
 import GroupItem from './GroupItem/GroupItem';
 import { CATEGORIES_OF_PRODUCTS } from 'src/constants/constants';
 
-export default class CreateCard extends Component<unknown> {
+interface CreateCardSate {
+  [key: string]: boolean;
+}
+
+export default class CreateCard extends Component<unknown, CreateCardSate> {
   private title: React.RefObject<HTMLInputElement>;
   private price: React.RefObject<HTMLInputElement>;
   private rate: React.RefObject<HTMLInputElement>;
@@ -20,6 +24,16 @@ export default class CreateCard extends Component<unknown> {
 
   constructor(props: unknown) {
     super(props);
+
+    this.state = {
+      isValidTitle: false,
+      isValidPrice: false,
+      isValidRate: false,
+      isValidDate: false,
+      isValidImage: false,
+      isValidCategory: false,
+      isValidNewOrUsed: false,
+    };
 
     this.title = React.createRef();
     this.price = React.createRef();
@@ -59,30 +73,50 @@ export default class CreateCard extends Component<unknown> {
           label="Product name:"
           placeholder="IPhone X"
           innerRef={this.title}
+          isValid={this.state.isValidTitle}
         />
-
         <InputItem
           id="price"
           type="number"
           label="Price (&#8364;):"
           placeholder="49.99"
           innerRef={this.price}
+          isValid={this.state.isValidPrice}
         />
-
-        <InputItem id="rate" type="number" label="Rate:" placeholder="4.5" innerRef={this.rate} />
-        <InputItem id="date" type="date" label="Date of purchase:" innerRef={this.date} />
-        <InputItem id="image" type="file" label="Photo:" accept="image/*" innerRef={this.image} />
-
+        <InputItem
+          id="rate"
+          type="number"
+          label="Rate:"
+          placeholder="4.5"
+          innerRef={this.rate}
+          isValid={this.state.isValidRate}
+        />
+        <InputItem
+          id="date"
+          type="date"
+          label="Date of purchase:"
+          innerRef={this.date}
+          isValid={this.state.isValidDate}
+        />
+        <InputItem
+          id="image"
+          type="file"
+          label="Photo:"
+          accept="image/*"
+          innerRef={this.image}
+          isValid={this.state.isValidImage}
+        />
         <SelectItem
           id="category"
           label="Category:"
           options={CATEGORIES_OF_PRODUCTS}
           innerRef={this.category}
+          isValid={this.state.inValidCategory}
         />
-
         <GroupItem
-          caption="Tags:"
+          caption="Tags (optional):"
           type="checkbox"
+          isValid={true}
           items={[
             {
               label: 'I want to sell urgently.',
@@ -94,11 +128,11 @@ export default class CreateCard extends Component<unknown> {
             },
           ]}
         />
-
         <GroupItem
           caption="Product condition:"
           type="radio"
           name="condition"
+          isValid={this.state.isValidNewOrUsed}
           items={[
             {
               label: 'New',
@@ -110,7 +144,6 @@ export default class CreateCard extends Component<unknown> {
             },
           ]}
         />
-
         <Button additionalClasses={styles.createCard__create} text="Create New Card" />
       </form>
     );
