@@ -5,7 +5,7 @@
   font: inherit;
   color: white;
 
-  background-color: black;
+  background-color: #202026;
   border: 2px solid transparent;
   border-radius: 10px;
   transition: 0.2s;
@@ -13,10 +13,10 @@
 
   &:hover {
     color: black;
-    background-color: bisque;
+    background-color: #ccc;
   }
 
   &:active {
-    background-color: rgb(226, 202, 175);
+    background-color: #b5b4b4;
   }
 }
