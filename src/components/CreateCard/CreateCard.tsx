@@ -75,19 +75,18 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
         const canSubmitForm = Object.values(this.state).every(Boolean);
 
         if (canSubmitForm) {
-          // this.props.addUserCard({});
-          console.log({
+          this.props.addUserCard({
             id: Date.now(),
             title: titleValue,
-            price: priceValue,
+            price: Number(priceValue),
             image: imageValue && URL.createObjectURL(imageValue),
-            rate: rateValue,
+            rate: Number(rateValue),
             date: dateValue,
             category: categoryValue,
-            condition: conditionArrValue.find((e) => e?.checked)?.value,
+            condition: conditionArrValue.find((e) => e?.checked)!.value,
             tags: {
-              urgently: this.urgently.current!.checked,
-              bargain: this.bargain.current!.checked,
+              urgently: this.urgently.current?.checked ?? false,
+              bargain: this.bargain.current?.checked ?? false,
             },
           });
           this.clearForm();

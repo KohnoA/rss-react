@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import CreateCard from 'src/components/CreateCard/CreateCard';
+import CardList from 'src/components/CardList/CardList';
 import { IProduct } from 'src/types/IProduct';
+import styles from './Form.module.scss';
 
 interface FormState {
   userCards: IProduct[];
@@ -26,6 +28,10 @@ export default class Form extends Component<unknown, FormState> {
         <h2 className="title">Form</h2>
 
         <CreateCard addUserCard={this.addUserCard} />
+
+        <h3 className={styles.form__subtitle}>Your Cards</h3>
+
+        <CardList />
       </div>
     );
   }
