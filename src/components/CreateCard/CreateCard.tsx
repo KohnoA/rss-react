@@ -5,12 +5,18 @@ import InputItem from './InputItem/InputItem';
 import SelectItem from './SelectItem/SelectItem';
 import GroupItem from './GroupItem/GroupItem';
 import { CATEGORIES_OF_PRODUCTS } from 'src/constants/constants';
+import { IProduct } from 'src/types/IProduct';
+import { checkValidation } from 'src/utils/checkValidation';
 
 interface CreateCardSate {
   [key: string]: boolean;
 }
 
-export default class CreateCard extends Component<unknown, CreateCardSate> {
+interface CreateCardProps {
+  addUserCard: (newCard: IProduct) => void;
+}
+
+export default class CreateCard extends Component<CreateCardProps, CreateCardSate> {
   private title: React.RefObject<HTMLInputElement>;
   private price: React.RefObject<HTMLInputElement>;
   private rate: React.RefObject<HTMLInputElement>;
@@ -22,17 +28,17 @@ export default class CreateCard extends Component<unknown, CreateCardSate> {
   private urgently: React.RefObject<HTMLInputElement>;
   private bargain: React.RefObject<HTMLInputElement>;
 
-  constructor(props: unknown) {
+  constructor(props: CreateCardProps) {
     super(props);
 
     this.state = {
-      isValidTitle: false,
-      isValidPrice: false,
-      isValidRate: false,
-      isValidDate: false,
-      isValidImage: false,
-      isValidCategory: false,
-      isValidNewOrUsed: false,
+      isValidTitle: true,
+      isValidPrice: true,
+      isValidRate: true,
+      isValidDate: true,
+      isValidImage: true,
+      isValidCategory: true,
+      isValidNewOrUsed: true,
     };
 
     this.title = React.createRef();
@@ -50,16 +56,46 @@ export default class CreateCard extends Component<unknown, CreateCardSate> {
   }
 
   handleSubmit(event: React.FormEvent): void {
-    console.log(this.title.current?.value);
-    console.log(this.price.current?.value);
-    console.log(this.rate.current?.value);
-    console.log(this.date.current?.value);
-    console.log(this.image.current?.files);
-    console.log(this.category.current?.value);
-    console.log(this.urgently.current?.checked);
-    console.log(this.bargain.current?.checked);
-    console.log(this.new.current?.checked);
-    console.log(this.used.current?.checked);
+    this.setState(
+      {
+        isValidTitle: checkValidation(this.title.current!.value, true),
+        isValidPrice: checkValidation(this.price.current!.value),
+        isValidRate: checkValidation(this.rate.current!.value),
+        isValidDate: checkValidation(this.date.current!.value),
+        isValidCategory: checkValidation(this.category.current!.value),
+        isValidNewOrUsed: [this.new.current?.checked, this.used.current?.checked].some(Boolean),
+      },
+      () => {
+        const canSubmitForm = Object.values(this.state).every(Boolean);
+
+        if (canSubmitForm) {
+          // this.props.addUserCard({});
+          console.log({
+            title: this.title.current!.value,
+            price: this.price.current!.value,
+            rate: this.rate.current!.value,
+            date: this.date.current!.value,
+            condition: [this.new.current, this.used.current].find((e) => e?.checked)?.value,
+            tags: {
+              urgently: this.urgently.current!.checked,
+              bargain: this.bargain.current!.checked,
+            },
+          });
+
+          this.title.current!.value = '';
+          this.price.current!.value = '';
+          this.rate.current!.value = '';
+          this.date.current!.value = '';
+          this.category.current!.value = '';
+          this.new.current!.checked = false;
+          this.used.current!.checked = false;
+          this.urgently.current!.checked = false;
+          this.bargain.current!.checked = false;
+        }
+      }
+    );
+
+    // console.log(this.image.current?.files);
 
     event.preventDefault();
   }
@@ -111,21 +147,15 @@ export default class CreateCard extends Component<unknown, CreateCardSate> {
           label="Category:"
           options={CATEGORIES_OF_PRODUCTS}
           innerRef={this.category}
-          isValid={this.state.inValidCategory}
+          isValid={this.state.isValidCategory}
         />
         <GroupItem
           caption="Tags (optional):"
           type="checkbox"
           isValid={true}
           items={[
-            {
-              label: 'I want to sell urgently.',
-              innerRef: this.urgently,
-            },
-            {
-              label: 'Bargaining possible',
-              innerRef: this.bargain,
-            },
+            { label: 'I want to sell urgently.', innerRef: this.urgently },
+            { label: 'Bargaining possible', innerRef: this.bargain },
           ]}
         />
         <GroupItem
@@ -134,14 +164,8 @@ export default class CreateCard extends Component<unknown, CreateCardSate> {
           name="condition"
           isValid={this.state.isValidNewOrUsed}
           items={[
-            {
-              label: 'New',
-              innerRef: this.new,
-            },
-            {
-              label: 'Used',
-              innerRef: this.used,
-            },
+            { label: 'New', value: 'new', innerRef: this.new },
+            { label: 'Used', value: 'used', innerRef: this.used },
           ]}
         />
         <Button additionalClasses={styles.createCard__create} text="Create New Card" />
