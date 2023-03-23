@@ -83,6 +83,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
             image: imageValue && URL.createObjectURL(imageValue),
             rate: rateValue,
             date: dateValue,
+            category: categoryValue,
             condition: conditionArrValue.find((e) => e?.checked)?.value,
             tags: {
               urgently: this.urgently.current!.checked,
