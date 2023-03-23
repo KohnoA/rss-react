@@ -53,41 +53,46 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
   }
 
   handleSubmit(event: React.FormEvent): void {
+    const titleValue = this.title.current?.value ?? '';
+    const priceValue = this.price.current?.value ?? '';
+    const rateValue = this.rate.current?.value ?? '';
+    const dateValue = this.date.current?.value ?? '';
+    const categoryValue = this.category.current?.value ?? '';
+    const imageValue = this.image.current?.files?.[0] ?? '';
+    const conditionArrValue = [this.new.current, this.used.current];
+
     this.setState(
       {
-        isValidTitle: checkValidation(this.title.current!.value, true),
-        isValidPrice: checkValidation(this.price.current!.value),
-        isValidRate: checkValidation(this.rate.current!.value),
-        isValidDate: checkValidation(this.date.current!.value),
-        isValidImage: checkValidation(this.image.current!.value),
-        isValidCategory: checkValidation(this.category.current!.value),
-        isValidNewOrUsed: [this.new.current?.checked, this.used.current?.checked].some(Boolean),
+        isValidTitle: checkValidation(titleValue, true),
+        isValidPrice: checkValidation(priceValue),
+        isValidRate: checkValidation(rateValue),
+        isValidDate: checkValidation(dateValue),
+        isValidCategory: checkValidation(categoryValue),
+        isValidImage: !!imageValue,
+        isValidNewOrUsed: conditionArrValue.some((e) => e?.checked),
       },
       () => {
         const canSubmitForm = Object.values(this.state).every(Boolean);
 
         if (canSubmitForm) {
-          const imagelink = this.image.current?.files?.[0] ?? '';
           // this.props.addUserCard({});
           console.log({
             id: Date.now(),
-            title: this.title.current!.value,
-            price: this.price.current!.value,
-            image: imagelink && URL.createObjectURL(imagelink),
-            rate: this.rate.current!.value,
-            date: this.date.current!.value,
-            condition: [this.new.current, this.used.current].find((e) => e?.checked)?.value,
+            title: titleValue,
+            price: priceValue,
+            image: imageValue && URL.createObjectURL(imageValue),
+            rate: rateValue,
+            date: dateValue,
+            condition: conditionArrValue.find((e) => e?.checked)?.value,
             tags: {
               urgently: this.urgently.current!.checked,
               bargain: this.bargain.current!.checked,
             },
           });
-
           this.clearForm();
         }
       }
     );
-
     event.preventDefault();
   }
 
@@ -97,6 +102,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
     this.rate.current!.value = '';
     this.date.current!.value = '';
     this.category.current!.value = '';
+    this.image.current!.value = '';
     this.new.current!.checked = false;
     this.used.current!.checked = false;
     this.urgently.current!.checked = false;
