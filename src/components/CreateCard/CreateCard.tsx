@@ -3,6 +3,7 @@ import styles from './CreateCard.module.scss';
 import Button from '../UI/Button/Button';
 import InputItem from './InputItem/InputItem';
 import SelectItem from './SelectItem/SelectItem';
+import GroupItem from './GroupItem/GroupItem';
 import { CATEGORIES_OF_PRODUCTS } from 'src/constants/constants';
 
 export default class CreateCard extends Component<unknown> {
@@ -41,10 +42,10 @@ export default class CreateCard extends Component<unknown> {
     console.log(this.date.current?.value);
     console.log(this.image.current?.files);
     console.log(this.category.current?.value);
-    console.log(this.new.current?.checked);
-    console.log(this.used.current?.checked);
     console.log(this.urgently.current?.checked);
     console.log(this.bargain.current?.checked);
+    console.log(this.new.current?.checked);
+    console.log(this.used.current?.checked);
 
     event.preventDefault();
   }
@@ -79,25 +80,36 @@ export default class CreateCard extends Component<unknown> {
           innerRef={this.category}
         />
 
-        <div className={styles.createCard__another}>
-          <p className={styles.createCard__another_caption}>Tags:</p>
-          <label className={styles.createCard__another_item}>
-            <input type="checkbox" ref={this.urgently} /> I want to sell urgently.
-          </label>
-          <label className={styles.createCard__another_item}>
-            <input type="checkbox" ref={this.bargain} /> Bargaining possible
-          </label>
-        </div>
+        <GroupItem
+          caption="Tags:"
+          type="checkbox"
+          items={[
+            {
+              label: 'I want to sell urgently.',
+              innerRef: this.urgently,
+            },
+            {
+              label: 'Bargaining possible',
+              innerRef: this.bargain,
+            },
+          ]}
+        />
 
-        <div className={styles.createCard__another}>
-          <p className={styles.createCard__another_caption}>Product condition:</p>
-          <label className={styles.createCard__another_item}>
-            <input name="condition" type="radio" value="new" ref={this.new} /> New
-          </label>
-          <label className={styles.createCard__another_item}>
-            <input name="condition" type="radio" value="used" ref={this.used} /> Used
-          </label>
-        </div>
+        <GroupItem
+          caption="Product condition:"
+          type="radio"
+          name="condition"
+          items={[
+            {
+              label: 'New',
+              innerRef: this.new,
+            },
+            {
+              label: 'Used',
+              innerRef: this.used,
+            },
+          ]}
+        />
 
         <Button additionalClasses={styles.createCard__create} text="Create New Card" />
       </form>

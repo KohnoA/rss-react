@@ -1,0 +1,17 @@
+.group {
+  display: flex;
+  flex-direction: column;
+
+  &__caption {
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-bottom: 3px;
+
+    border-bottom: 2px solid #ccc;
+  }
+
+  &__item {
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+}
