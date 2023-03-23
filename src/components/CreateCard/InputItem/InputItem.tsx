@@ -16,7 +16,7 @@ export default class InputItem extends Component<InputItemProps> {
   }
 
   render() {
-    const { id, type, label, placeholder, innerRef } = this.props;
+    const { id, type, label, placeholder, innerRef, accept } = this.props;
 
     return (
       <div className={styles.formItem}>
@@ -29,6 +29,8 @@ export default class InputItem extends Component<InputItemProps> {
           type={type}
           placeholder={placeholder}
           ref={innerRef}
+          accept={accept}
+          {...(type === 'number' ? { step: 'any' } : {})}
         />
       </div>
     );
