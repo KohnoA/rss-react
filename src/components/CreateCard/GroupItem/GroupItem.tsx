@@ -8,7 +8,6 @@ interface GroupItemProps {
   isValid: boolean;
   items: Array<{
     label: string;
-    value?: string;
     innerRef: React.RefObject<HTMLInputElement>;
   }>;
 }
@@ -29,13 +28,7 @@ export default class GroupItem extends Component<GroupItemProps> {
         {!isValid && <p className={styles.group__errorMessage}>Error</p>}
         {items.map((item) => (
           <label key={item.label} className={styles.group__item}>
-            <input
-              name={name}
-              type={type}
-              ref={item.innerRef}
-              {...(item.value ? { value: item.value } : '')}
-            />{' '}
-            {item.label}
+            <input name={name} type={type} ref={item.innerRef} value={item.label} /> {item.label}
           </label>
         ))}
       </div>

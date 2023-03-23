@@ -8,17 +8,17 @@ import { CATEGORIES_OF_PRODUCTS } from 'src/constants/constants';
 import { IProduct } from 'src/types/IProduct';
 import { checkValidation } from 'src/utils/checkValidation';
 
-interface CreateCardSate {
-  [key: string]: boolean;
-}
-
 interface CreateCardProps {
   addUserCard: (newCard: IProduct) => void;
 }
 
+interface CreateCardSate {
+  [key: string]: boolean;
+}
+
 export default class CreateCard extends Component<CreateCardProps, CreateCardSate> {
-  private title: React.RefObject<HTMLInputElement>;
   private price: React.RefObject<HTMLInputElement>;
+  private title: React.RefObject<HTMLInputElement>;
   private rate: React.RefObject<HTMLInputElement>;
   private date: React.RefObject<HTMLInputElement>;
   private image: React.RefObject<HTMLInputElement>;
@@ -30,7 +30,6 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
 
   constructor(props: CreateCardProps) {
     super(props);
-
     this.state = {
       isValidTitle: true,
       isValidPrice: true,
@@ -40,7 +39,6 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
       isValidCategory: true,
       isValidNewOrUsed: true,
     };
-
     this.title = React.createRef();
     this.price = React.createRef();
     this.rate = React.createRef();
@@ -51,7 +49,6 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
     this.used = React.createRef();
     this.urgently = React.createRef();
     this.bargain = React.createRef();
-
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -62,6 +59,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
         isValidPrice: checkValidation(this.price.current!.value),
         isValidRate: checkValidation(this.rate.current!.value),
         isValidDate: checkValidation(this.date.current!.value),
+        isValidImage: checkValidation(this.image.current!.value),
         isValidCategory: checkValidation(this.category.current!.value),
         isValidNewOrUsed: [this.new.current?.checked, this.used.current?.checked].some(Boolean),
       },
@@ -69,10 +67,13 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
         const canSubmitForm = Object.values(this.state).every(Boolean);
 
         if (canSubmitForm) {
+          const imagelink = this.image.current?.files?.[0] ?? '';
           // this.props.addUserCard({});
           console.log({
+            id: Date.now(),
             title: this.title.current!.value,
             price: this.price.current!.value,
+            image: imagelink && URL.createObjectURL(imagelink),
             rate: this.rate.current!.value,
             date: this.date.current!.value,
             condition: [this.new.current, this.used.current].find((e) => e?.checked)?.value,
@@ -82,22 +83,24 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
             },
           });
 
-          this.title.current!.value = '';
-          this.price.current!.value = '';
-          this.rate.current!.value = '';
-          this.date.current!.value = '';
-          this.category.current!.value = '';
-          this.new.current!.checked = false;
-          this.used.current!.checked = false;
-          this.urgently.current!.checked = false;
-          this.bargain.current!.checked = false;
+          this.clearForm();
         }
       }
     );
 
-    // console.log(this.image.current?.files);
-
     event.preventDefault();
+  }
+
+  clearForm(): void {
+    this.title.current!.value = '';
+    this.price.current!.value = '';
+    this.rate.current!.value = '';
+    this.date.current!.value = '';
+    this.category.current!.value = '';
+    this.new.current!.checked = false;
+    this.used.current!.checked = false;
+    this.urgently.current!.checked = false;
+    this.bargain.current!.checked = false;
   }
 
   render() {
@@ -164,8 +167,8 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
           name="condition"
           isValid={this.state.isValidNewOrUsed}
           items={[
-            { label: 'New', value: 'new', innerRef: this.new },
-            { label: 'Used', value: 'used', innerRef: this.used },
+            { label: 'New', innerRef: this.new },
+            { label: 'Used', innerRef: this.used },
           ]}
         />
         <Button additionalClasses={styles.createCard__create} text="Create New Card" />
