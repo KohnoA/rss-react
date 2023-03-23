@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from './CreateCard.module.scss';
 import Button from '../UI/Button/Button';
 import InputItem from './InputItem/InputItem';
+import SelectItem from './SelectItem/SelectItem';
 import { CATEGORIES_OF_PRODUCTS } from 'src/constants/constants';
 
 export default class CreateCard extends Component<unknown> {
@@ -68,23 +69,15 @@ export default class CreateCard extends Component<unknown> {
         />
 
         <InputItem id="rate" type="number" label="Rate:" placeholder="4.5" innerRef={this.rate} />
-
         <InputItem id="date" type="date" label="Date of purchase:" innerRef={this.date} />
-
         <InputItem id="image" type="file" label="Photo:" accept="image/*" innerRef={this.image} />
 
-        <div className={styles.createCard__item}>
-          <label htmlFor="category" className={styles.createCard__label}>
-            Category:
-          </label>
-          <select className={styles.createCard__input} id="category" ref={this.category}>
-            {CATEGORIES_OF_PRODUCTS.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
+        <SelectItem
+          id="category"
+          label="Category:"
+          options={CATEGORIES_OF_PRODUCTS}
+          innerRef={this.category}
+        />
 
         <div className={styles.createCard__another}>
           <p className={styles.createCard__another_caption}>Tags:</p>
