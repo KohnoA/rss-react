@@ -43,6 +43,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
         isValidImage: true,
         isValidCategory: true,
         isValidNewOrUsed: true,
+        isValidTags: true,
       },
     };
     this.title = React.createRef();
@@ -66,6 +67,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
     const categoryValue = this.category.current?.value ?? '';
     const imageValue = this.image.current?.files?.[0] ?? '';
     const conditionArrValue = [this.new.current, this.used.current];
+    const tagsArrValue = [this.urgently.current, this.bargain.current];
 
     this.setState(
       {
@@ -77,6 +79,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
           isValidCategory: checkValidation(categoryValue),
           isValidImage: !!imageValue,
           isValidNewOrUsed: conditionArrValue.some((e) => e?.checked),
+          isValidTags: tagsArrValue.some((e) => e?.checked),
         },
       },
       () => {
@@ -92,8 +95,8 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
             category: categoryValue,
             condition: conditionArrValue.find((e) => e?.checked)!.value,
             tags: {
-              urgently: this.urgently.current?.checked ?? false,
-              bargain: this.bargain.current?.checked ?? false,
+              urgently: this.urgently.current!.checked,
+              bargain: this.bargain.current!.checked,
             },
           });
           this.showConfirmMessage();
@@ -176,9 +179,9 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
           isValid={validCase.isValidCategory}
         />
         <GroupItem
-          caption="Tags (optional):"
+          caption="Tags:"
           type="checkbox"
-          isValid={true}
+          isValid={validCase.isValidTags}
           items={[
             { label: 'I want to sell urgently.', innerRef: this.urgently },
             { label: 'Bargaining possible', innerRef: this.bargain },
