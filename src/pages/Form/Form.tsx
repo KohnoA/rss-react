@@ -15,11 +15,14 @@ export default class Form extends Component<unknown, FormState> {
     this.state = {
       userCards: [],
     };
+
+    this.addUserCard = this.addUserCard.bind(this);
   }
 
   addUserCard(newCard: IProduct): void {
-    this.setState({ userCards: [...this.state.userCards, newCard] });
-    console.log(this.state.userCards);
+    this.setState({ userCards: [...this.state.userCards, newCard] }, () => {
+      console.log(this.state.userCards);
+    });
   }
 
   render() {

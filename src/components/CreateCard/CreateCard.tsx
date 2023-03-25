@@ -13,7 +13,10 @@ interface CreateCardProps {
 }
 
 interface CreateCardSate {
-  [key: string]: boolean;
+  showMessage: boolean;
+  validCase: {
+    [key: string]: boolean;
+  };
 }
 
 export default class CreateCard extends Component<CreateCardProps, CreateCardSate> {
@@ -31,13 +34,16 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
   constructor(props: CreateCardProps) {
     super(props);
     this.state = {
-      isValidTitle: true,
-      isValidPrice: true,
-      isValidRate: true,
-      isValidDate: true,
-      isValidImage: true,
-      isValidCategory: true,
-      isValidNewOrUsed: true,
+      showMessage: false,
+      validCase: {
+        isValidTitle: true,
+        isValidPrice: true,
+        isValidRate: true,
+        isValidDate: true,
+        isValidImage: true,
+        isValidCategory: true,
+        isValidNewOrUsed: true,
+      },
     };
     this.title = React.createRef();
     this.price = React.createRef();
@@ -63,17 +69,18 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
 
     this.setState(
       {
-        isValidTitle: checkValidation(titleValue, true),
-        isValidPrice: checkValidation(priceValue),
-        isValidRate: checkValidation(rateValue),
-        isValidDate: checkValidation(dateValue),
-        isValidCategory: checkValidation(categoryValue),
-        isValidImage: !!imageValue,
-        isValidNewOrUsed: conditionArrValue.some((e) => e?.checked),
+        validCase: {
+          isValidTitle: checkValidation(titleValue, true),
+          isValidPrice: checkValidation(priceValue),
+          isValidRate: checkValidation(rateValue),
+          isValidDate: checkValidation(dateValue),
+          isValidCategory: checkValidation(categoryValue),
+          isValidImage: !!imageValue,
+          isValidNewOrUsed: conditionArrValue.some((e) => e?.checked),
+        },
       },
       () => {
-        const canSubmitForm = Object.values(this.state).every(Boolean);
-
+        const canSubmitForm = Object.values(this.state.validCase).every(Boolean);
         if (canSubmitForm) {
           this.props.addUserCard({
             id: Date.now(),
@@ -89,6 +96,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
               bargain: this.bargain.current?.checked ?? false,
             },
           });
+          this.showConfirmMessage();
           this.clearForm();
         }
       }
@@ -109,7 +117,16 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
     this.bargain.current!.checked = false;
   }
 
+  showConfirmMessage(): void {
+    this.setState({ showMessage: true }, () => {
+      const timeoutId = setTimeout(() => {
+        this.setState({ showMessage: false }, () => clearTimeout(timeoutId));
+      }, 1000);
+    });
+  }
+
   render() {
+    const { showMessage, validCase } = this.state;
     return (
       <form className={styles.createCard} action="#" onSubmit={this.handleSubmit}>
         <InputItem
@@ -118,7 +135,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
           label="Product name:"
           placeholder="IPhone X"
           innerRef={this.title}
-          isValid={this.state.isValidTitle}
+          isValid={validCase.isValidTitle}
         />
         <InputItem
           id="price"
@@ -126,7 +143,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
           label="Price (&#8364;):"
           placeholder="49.99"
           innerRef={this.price}
-          isValid={this.state.isValidPrice}
+          isValid={validCase.isValidPrice}
         />
         <InputItem
           id="rate"
@@ -134,14 +151,14 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
           label="Rate:"
           placeholder="4.5"
           innerRef={this.rate}
-          isValid={this.state.isValidRate}
+          isValid={validCase.isValidRate}
         />
         <InputItem
           id="date"
           type="date"
           label="Date of purchase:"
           innerRef={this.date}
-          isValid={this.state.isValidDate}
+          isValid={validCase.isValidDate}
         />
         <InputItem
           id="image"
@@ -149,14 +166,14 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
           label="Photo:"
           accept="image/*"
           innerRef={this.image}
-          isValid={this.state.isValidImage}
+          isValid={validCase.isValidImage}
         />
         <SelectItem
           id="category"
           label="Category:"
           options={CATEGORIES_OF_PRODUCTS}
           innerRef={this.category}
-          isValid={this.state.isValidCategory}
+          isValid={validCase.isValidCategory}
         />
         <GroupItem
           caption="Tags (optional):"
@@ -171,12 +188,13 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
           caption="Product condition:"
           type="radio"
           name="condition"
-          isValid={this.state.isValidNewOrUsed}
+          isValid={validCase.isValidNewOrUsed}
           items={[
             { label: 'New', innerRef: this.new },
             { label: 'Used', innerRef: this.used },
           ]}
         />
+        {showMessage && <div className={styles.createCard__confirm}>&#10003; Card created!</div>}
         <Button additionalClasses={styles.createCard__create} text="Create New Card" />
       </form>
     );
