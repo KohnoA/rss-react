@@ -18,10 +18,20 @@ export default class Card extends Component<CardProps> {
     return (
       <div className={styles.card} data-testid="card">
         {tags.bargain && (
-          <div className={`${styles.card__tags} ${styles.card__tags_bargain}`}>Bargain</div>
+          <div
+            className={`${styles.card__tags} ${styles.card__tags_bargain}`}
+            data-testid="card-bargain"
+          >
+            Bargain
+          </div>
         )}
         {tags.urgently && (
-          <div className={`${styles.card__tags} ${styles.card__tags_urgently}`}>Urgently</div>
+          <div
+            className={`${styles.card__tags} ${styles.card__tags_urgently}`}
+            data-testid="card-urgently"
+          >
+            Urgently
+          </div>
         )}
 
         <span
@@ -39,7 +49,7 @@ export default class Card extends Component<CardProps> {
 
         <div className={styles.card__rating}>
           <span data-testid="card-rate">Rate: {rate}</span>
-          <span data-testid="card-count">Date: {date}</span>
+          <span data-testid="card-date">Date: {date}</span>
         </div>
 
         <Button text="Buy Now" additionalClasses={styles.card__button} />

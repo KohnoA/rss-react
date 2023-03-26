@@ -1,19 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { IProduct } from 'src/types/IProduct';
 import Card from './Card';
+import { PRODUCTS_DATA } from 'src/constants/productsData';
 
-const mockData: IProduct = {
-  id: 1,
-  image: '../../assets/images/mock.jpg',
-  title: 'Mock Item',
-  category: 'Mock category',
-  price: 45.99,
-  description: 'mock desc',
-  rating: {
-    rate: 5,
-    count: 10,
-  },
-};
+const mockData: IProduct = PRODUCTS_DATA[0];
 
 describe('testing Card component', () => {
   beforeEach(() => {
@@ -26,12 +16,18 @@ describe('testing Card component', () => {
 
   it('should display correctly', () => {
     expect(screen.getByText(new RegExp(`${mockData.title}`, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(`${mockData.condition}`, 'i'))).toBeInTheDocument();
     expect(screen.getByText(mockData.category)).toBeInTheDocument();
     expect(screen.getByText(new RegExp(`${mockData.price}`, 'i'))).toBeInTheDocument();
-    expect(screen.getByTestId('card-rate')).toContainHTML(`Rate: ${mockData.rating.rate}`);
-    expect(screen.getByTestId('card-count')).toContainHTML(`Count: ${mockData.rating.count}`);
+    expect(screen.getByTestId('card-rate')).toContainHTML(`Rate: ${mockData.rate}`);
+    expect(screen.getByTestId('card-date')).toContainHTML(`Date: ${mockData.date}`);
     expect(screen.getByTestId('card-image')).toHaveStyle({
       backgroundImage: mockData.image,
     });
+  });
+
+  it('should be display tags', () => {
+    expect(screen.getByTestId('card-bargain')).toBeInTheDocument();
+    expect(screen.getByTestId('card-urgently')).toBeInTheDocument();
   });
 });
