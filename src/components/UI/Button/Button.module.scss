@@ -1,0 +1,22 @@
+.button {
+  display: inline-block;
+  padding: 10px 15px;
+
+  font: inherit;
+  color: white;
+
+  background-color: #202026;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    color: black;
+    background-color: #ccc;
+  }
+
+  &:active {
+    background-color: #b5b4b4;
+  }
+}

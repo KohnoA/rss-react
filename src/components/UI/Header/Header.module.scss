@@ -1,0 +1,11 @@
+.header {
+  background-color: #202026;
+
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
