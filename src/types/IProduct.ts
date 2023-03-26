@@ -1,12 +1,14 @@
 export interface IProduct {
   id: number;
-  category: string;
-  description: string;
-  image: string;
-  price: number;
   title: string;
-  rating: {
-    rate: number;
-    count: number;
+  price: number;
+  image: string;
+  rate: number;
+  date: string;
+  category: string;
+  condition: string;
+  tags: {
+    urgently: boolean;
+    bargain: boolean;
   };
 }

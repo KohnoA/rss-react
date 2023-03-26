@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import styles from './SearchPanel.module.scss';
+import { LOCALSTORAGE_KEY_SEARCH } from 'src/constants/constants';
 
 interface SearchPanelState {
   value: string;
@@ -14,12 +15,12 @@ export default class SearchPanel extends Component<unknown, SearchPanelState> {
   }
 
   componentDidMount(): void {
-    const savedValue = localStorage.getItem('search');
+    const savedValue = localStorage.getItem(LOCALSTORAGE_KEY_SEARCH);
     if (savedValue) this.setState({ value: savedValue });
   }
 
   componentWillUnmount(): void {
-    localStorage.setItem('search', this.state.value);
+    localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, this.state.value);
   }
 
   render() {

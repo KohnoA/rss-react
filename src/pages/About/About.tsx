@@ -5,7 +5,7 @@ export default class About extends Component {
   render() {
     return (
       <div className="container page" data-testid="page-about">
-        <h2 className={styles.about__title}>About</h2>
+        <h2 className="title">About</h2>
 
         <p className={styles.about__description} data-testid="about-description">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat provident ullam inventore

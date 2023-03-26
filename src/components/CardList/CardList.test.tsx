@@ -1,61 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import CardList from './CardList';
-import axios from 'axios';
-import { vi } from 'vitest';
+import { PRODUCTS_DATA } from 'src/constants/productsData';
 import { IProduct } from 'src/types/IProduct';
-import { act } from 'react-dom/test-utils';
+
+const mockData: IProduct[] = PRODUCTS_DATA.filter((_, index) => index < 3);
 
 describe('testing CardList component', () => {
-  vi.mock('axios');
-  const response: IProduct[] = [
-    {
-      id: 1,
-      image: '../../assets/images/mock.jpg',
-      title: 'Mock Item1',
-      category: 'Mock category1',
-      price: 45.99,
-      description: 'mock desc1',
-      rating: {
-        rate: 5,
-        count: 10,
-      },
-    },
-    {
-      id: 2,
-      image: '../../assets/images/mock.jpg',
-      title: 'Mock Item1',
-      category: 'Mock category1',
-      price: 46.99,
-      description: 'mock desc2',
-      rating: {
-        rate: 6,
-        count: 11,
-      },
-    },
-    {
-      id: 3,
-      image: '../../assets/images/mock.jpg',
-      title: 'Mock Item1',
-      category: 'Mock category1',
-      price: 47.99,
-      description: 'mock desc3',
-      rating: {
-        rate: 7,
-        count: 12,
-      },
-    },
-  ];
-
-  afterAll(() => {
-    vi.clearAllMocks;
-    vi.resetAllMocks;
-  });
-
   it('should be displayed', async () => {
-    act(() => {
-      (axios as jest.Mocked<typeof axios>).get.mockResolvedValue({ data: response });
-      render(<CardList />);
-    });
+    render(<CardList cardsData={mockData} />);
 
     await waitFor(() => {
       expect(screen.getByTestId('card-list')).toBeInTheDocument();
@@ -63,14 +15,9 @@ describe('testing CardList component', () => {
   });
 
   it('should display a list of cards', async () => {
-    act(() => {
-      (axios as jest.Mocked<typeof axios>).get.mockResolvedValue({ data: response });
-      render(<CardList />);
-    });
+    render(<CardList cardsData={mockData} />);
 
-    await waitFor(() => {
-      const cardsData = screen.getAllByTestId('card');
-      expect(cardsData.length).toBe(12);
-    });
+    const cardsData = screen.getAllByTestId('card');
+    expect(cardsData.length).toBe(mockData.length);
   });
 });

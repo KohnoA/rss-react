@@ -1,12 +1,14 @@
 import './styles/global.scss';
-import AppRouter from './components/AppRouter/AppRouter';
 import Header from './components/UI/Header/Header';
+import AppRouter from './components/AppRouter/AppRouter';
+import Footer from './components/UI/Footer/Footer';
 
 function App() {
   return (
     <>
       <Header />
       <AppRouter />
+      <Footer />
     </>
   );
 }
