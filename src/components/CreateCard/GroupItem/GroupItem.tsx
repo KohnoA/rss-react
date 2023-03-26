@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './GroupItem.module.scss';
 
-interface GroupItemProps {
+export interface GroupItemProps {
   caption: string;
   type: string;
   name?: string;
@@ -21,7 +21,7 @@ export default class GroupItem extends Component<GroupItemProps> {
     const { caption, type, items, name, isValid } = this.props;
 
     return (
-      <div className={styles.group}>
+      <div className={styles.group} data-testid="group-item">
         <p className={`${styles.group__caption} ${!isValid ? styles.group__error : ''}`}>
           {caption}
         </p>
