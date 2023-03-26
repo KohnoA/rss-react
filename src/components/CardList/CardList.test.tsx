@@ -1,10 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import CardList from './CardList';
 import { PRODUCTS_DATA } from 'src/constants/productsData';
+import { IProduct } from 'src/types/IProduct';
+
+const mockData: IProduct[] = PRODUCTS_DATA.filter((_, index) => index < 3);
 
 describe('testing CardList component', () => {
   it('should be displayed', async () => {
-    render(<CardList />);
+    render(<CardList cardsData={mockData} />);
 
     await waitFor(() => {
       expect(screen.getByTestId('card-list')).toBeInTheDocument();
@@ -12,9 +15,9 @@ describe('testing CardList component', () => {
   });
 
   it('should display a list of cards', async () => {
-    render(<CardList />);
+    render(<CardList cardsData={mockData} />);
 
     const cardsData = screen.getAllByTestId('card');
-    expect(cardsData.length).toBe(PRODUCTS_DATA.length);
+    expect(cardsData.length).toBe(mockData.length);
   });
 });
