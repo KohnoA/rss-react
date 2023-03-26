@@ -26,6 +26,7 @@ export default class Form extends Component<unknown, FormState> {
   }
 
   render() {
+    const { userCards } = this.state;
     return (
       <div className="container page" data-testid="page-form">
         <h2 className="title">Form</h2>
@@ -34,7 +35,11 @@ export default class Form extends Component<unknown, FormState> {
 
         <h3 className={styles.form__subtitle}>Your Cards</h3>
 
-        <CardList />
+        {userCards.length ? (
+          <CardList cardsData={this.state.userCards} />
+        ) : (
+          <div className={styles.form__noData}>No cards yet 😞</div>
+        )}
       </div>
     );
   }
