@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from '../CreateCard.module.scss';
 
-interface SelectItemProps {
+export interface SelectItemProps {
   id: string;
   label: string;
   options: string[];
@@ -18,7 +18,7 @@ export default class SelectItem extends Component<SelectItemProps> {
     const { id, label, options, innerRef, isValid } = this.props;
 
     return (
-      <div className={styles.formItem}>
+      <div className={styles.formItem} data-testid="select-item">
         <label htmlFor={id} className={styles.formItem__label}>
           {label}
         </label>
@@ -36,7 +36,7 @@ export default class SelectItem extends Component<SelectItemProps> {
           </option>
 
           {options.map((item) => (
-            <option key={item} value={item}>
+            <option key={item} value={item} data-testid="select-item-option">
               {item}
             </option>
           ))}

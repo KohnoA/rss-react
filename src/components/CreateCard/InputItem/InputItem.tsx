@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from '../CreateCard.module.scss';
 
-interface InputItemProps {
+export interface InputItemProps {
   id: string;
   type: string;
   label: string;
@@ -20,7 +20,7 @@ export default class InputItem extends Component<InputItemProps> {
     const { id, type, label, placeholder, innerRef, accept, isValid } = this.props;
 
     return (
-      <div className={styles.formItem}>
+      <div className={styles.formItem} data-testid="input-item">
         <label htmlFor={id} className={styles.formItem__label}>
           {label}
         </label>
