@@ -9,7 +9,7 @@ import { IProduct } from 'src/types/IProduct';
 import { checkValidation } from 'src/utils/checkValidation';
 
 interface CreateCardProps {
-  addUserCard: (newCard: IProduct) => void;
+  handlerAddCard: (newCard: IProduct) => void;
 }
 
 interface CreateCardSate {
@@ -85,7 +85,7 @@ export default class CreateCard extends Component<CreateCardProps, CreateCardSat
       () => {
         const canSubmitForm = Object.values(this.state.validCase).every(Boolean);
         if (canSubmitForm) {
-          this.props.addUserCard({
+          this.props.handlerAddCard({
             id: Date.now(),
             title: titleValue,
             price: Number(priceValue),

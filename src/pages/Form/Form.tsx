@@ -1,46 +1,29 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import CreateCard from 'src/components/CreateCard/CreateCard';
 import CardList from 'src/components/CardList/CardList';
 import { IProduct } from 'src/types/IProduct';
 import styles from './Form.module.scss';
 
-interface FormState {
-  userCards: IProduct[];
-}
+export default function Form() {
+  const [userCards, setUserCards] = useState<IProduct[]>([]);
 
-export default class Form extends Component<unknown, FormState> {
-  constructor(props: unknown) {
-    super(props);
+  const handlerAddCard = (newCard: IProduct): void => {
+    setUserCards([...userCards, newCard]);
+  };
 
-    this.state = {
-      userCards: [],
-    };
+  return (
+    <div className="container page" data-testid="page-form">
+      <h2 className="title">Form</h2>
 
-    this.addUserCard = this.addUserCard.bind(this);
-  }
+      <CreateCard handlerAddCard={handlerAddCard} />
 
-  addUserCard(newCard: IProduct): void {
-    this.setState({ userCards: [...this.state.userCards, newCard] }, () => {
-      console.log(this.state.userCards);
-    });
-  }
+      <h3 className={styles.form__subtitle}>Your Cards</h3>
 
-  render() {
-    const { userCards } = this.state;
-    return (
-      <div className="container page" data-testid="page-form">
-        <h2 className="title">Form</h2>
-
-        <CreateCard addUserCard={this.addUserCard} />
-
-        <h3 className={styles.form__subtitle}>Your Cards</h3>
-
-        {userCards.length ? (
-          <CardList cardsData={this.state.userCards} />
-        ) : (
-          <div className={styles.form__noData}>No cards yet 😞</div>
-        )}
-      </div>
-    );
-  }
+      {userCards.length ? (
+        <CardList cardsData={userCards} />
+      ) : (
+        <div className={styles.form__noData}>No cards yet 😞</div>
+      )}
+    </div>
+  );
 }
