@@ -9,8 +9,8 @@ export default function SearchPanel() {
   });
 
   useEffect(() => {
-    return () => localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, value);
-  });
+    localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, value);
+  }, [value]);
 
   return (
     <form
