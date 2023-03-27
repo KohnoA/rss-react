@@ -1,35 +1,21 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import SearchPanel from 'src/components/SearchPanel/SearchPanel';
 import CardList from 'src/components/CardList/CardList';
 import { IProduct } from 'src/types/IProduct';
 import { PRODUCTS_DATA } from 'src/constants/productsData';
 
-interface MainState {
-  cardsData: IProduct[];
-}
+export default function Main() {
+  const [cardsData, setCardsData] = useState<IProduct[]>([]);
 
-export default class Main extends Component<unknown, MainState> {
-  constructor(props: MainState) {
-    super(props);
+  useEffect(() => setCardsData(PRODUCTS_DATA), []);
 
-    this.state = {
-      cardsData: [],
-    };
-  }
+  return (
+    <div className="container page" data-testid="page-main">
+      <h2 className="title">Main</h2>
 
-  componentDidMount(): void {
-    this.setState({ cardsData: PRODUCTS_DATA });
-  }
+      <SearchPanel />
 
-  render() {
-    return (
-      <div className="container page" data-testid="page-main">
-        <h2 className="title">Main</h2>
-
-        <SearchPanel />
-
-        <CardList cardsData={this.state.cardsData} />
-      </div>
-    );
-  }
+      <CardList cardsData={cardsData} />
+    </div>
+  );
 }
