@@ -1,40 +1,39 @@
-import React, { Component } from 'react';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import styles from '../CreateCard.module.scss';
+import { HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
 
-export interface InputItemProps {
-  id: string;
-  type: string;
+interface InputItemProps {
   label: string;
-  innerRef: React.RefObject<HTMLInputElement>;
-  isValid: boolean;
   placeholder?: string;
-  accept?: string;
+  type?: HTMLInputTypeAttribute;
+  otherAttr?: InputHTMLAttributes<HTMLInputElement>;
+  register: UseFormRegisterReturn;
+  error: FieldError | undefined;
 }
 
-export default class InputItem extends Component<InputItemProps> {
-  constructor(props: InputItemProps) {
-    super(props);
-  }
-
-  render() {
-    const { id, type, label, placeholder, innerRef, accept, isValid } = this.props;
-
-    return (
-      <div className={styles.formItem} data-testid="input-item">
-        <label htmlFor={id} className={styles.formItem__label}>
-          {label}
-        </label>
-        {!isValid && <p className={styles.formItem__errorMessage}>Error</p>}
-        <input
-          id={id}
-          className={`${styles.formItem__input} ${!isValid ? styles.formItem__input_error : ''}`}
-          type={type}
-          placeholder={placeholder}
-          ref={innerRef}
-          accept={accept}
-          {...(type === 'number' ? { step: 'any' } : {})}
-        />
-      </div>
-    );
-  }
+export default function InputItem({
+  label,
+  placeholder,
+  type,
+  otherAttr,
+  register,
+  error,
+}: InputItemProps) {
+  return (
+    <label className={styles.formItem}>
+      <span className={styles.formItem__label}>{label}:</span>
+      <input
+        className={`${styles.formItem__input} ${error ? styles.formItem__input_error : ''}`}
+        type={type || 'text'}
+        {...(placeholder ? { placeholder: placeholder } : {})}
+        {...register}
+        {...otherAttr}
+      />
+      {error && (
+        <span className={styles.formItem__errorMessage}>
+          {error?.message || 'Please fill in the field'}
+        </span>
+      )}
+    </label>
+  );
 }

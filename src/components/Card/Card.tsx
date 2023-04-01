@@ -11,22 +11,15 @@ export default function Card({ data }: CardProps) {
 
   return (
     <div className={styles.card} data-testid="card">
-      {tags.bargain && (
+      {tags.map((item) => (
         <div
-          className={`${styles.card__tags} ${styles.card__tags_bargain}`}
-          data-testid="card-bargain"
+          key={item}
+          className={`${styles.card__tags} ${styles[`card__tags_${item}`]}`}
+          data-testid={`card-${item}`}
         >
-          Bargain
+          {`${item.slice(0, 1).toUpperCase()}${item.slice(1)}`}
         </div>
-      )}
-      {tags.urgently && (
-        <div
-          className={`${styles.card__tags} ${styles.card__tags_urgently}`}
-          data-testid="card-urgently"
-        >
-          Urgently
-        </div>
-      )}
+      ))}
 
       <span
         className={styles.card__image}

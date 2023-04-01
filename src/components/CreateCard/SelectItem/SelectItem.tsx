@@ -1,47 +1,42 @@
-import React, { Component } from 'react';
+import { UseFormRegisterReturn, FieldError } from 'react-hook-form';
 import styles from '../CreateCard.module.scss';
 
-export interface SelectItemProps {
-  id: string;
-  label: string;
+interface SelectItemProps {
+  caption: string;
+  defaultOption?: string;
   options: string[];
-  innerRef: React.RefObject<HTMLSelectElement>;
-  isValid: boolean;
+  register: UseFormRegisterReturn;
+  error: FieldError | undefined;
 }
 
-export default class SelectItem extends Component<SelectItemProps> {
-  constructor(props: SelectItemProps) {
-    super(props);
-  }
+export default function SelectItem({
+  caption,
+  defaultOption,
+  options,
+  register,
+  error,
+}: SelectItemProps) {
+  return (
+    <label className={styles.formItem}>
+      <span className={styles.formItem__label}>{caption}:</span>
 
-  render() {
-    const { id, label, options, innerRef, isValid } = this.props;
+      <select
+        className={`${styles.formItem__input} ${error ? styles.formItem__input_error : ''}`}
+        defaultValue=""
+        {...register}
+      >
+        <option value="" disabled>
+          {defaultOption || 'Select option'}
+        </option>
 
-    return (
-      <div className={styles.formItem} data-testid="select-item">
-        <label htmlFor={id} className={styles.formItem__label}>
-          {label}
-        </label>
-
-        {!isValid && <p className={styles.formItem__errorMessage}>Error</p>}
-
-        <select
-          className={`${styles.formItem__input} ${!isValid ? styles.formItem__input_error : ''}`}
-          id={id}
-          ref={innerRef}
-          defaultValue=""
-        >
-          <option value="" disabled>
-            Choose a category
+        {options.map((item) => (
+          <option key={item} value={item}>
+            {item}
           </option>
+        ))}
+      </select>
 
-          {options.map((item) => (
-            <option key={item} value={item} data-testid="select-item-option">
-              {item}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  }
+      {error && <span className={styles.formItem__errorMessage}>Please fill in the field</span>}
+    </label>
+  );
 }

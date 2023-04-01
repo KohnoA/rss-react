@@ -8,7 +8,7 @@ interface CardListProps {
 
 export default function CardList({ cardsData }: CardListProps) {
   return (
-    <div className={styles.cardList__list} data-testid="card-list">
+    <div className={styles.cardList} data-testid="card-list">
       {cardsData.map((item) => (
         <Card key={item.id} data={item} />
       ))}

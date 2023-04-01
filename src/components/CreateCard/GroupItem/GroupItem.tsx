@@ -1,37 +1,36 @@
-import React, { Component } from 'react';
-import styles from './GroupItem.module.scss';
+import { FieldError, Merge, UseFormRegisterReturn } from 'react-hook-form';
+import styles from '../CreateCard.module.scss';
 
-export interface GroupItemProps {
+interface GroupItemProps {
   caption: string;
   type: string;
-  name?: string;
-  isValid: boolean;
+  register: UseFormRegisterReturn;
+  error: Merge<FieldError, (FieldError | undefined)[]> | undefined;
   items: Array<{
-    label: string;
-    innerRef: React.RefObject<HTMLInputElement>;
+    value: string;
+    message?: string;
   }>;
 }
 
-export default class GroupItem extends Component<GroupItemProps> {
-  constructor(props: GroupItemProps) {
-    super(props);
-  }
+export default function GroupItem({ caption, type, items, register, error }: GroupItemProps) {
+  return (
+    <div className={styles.formItem}>
+      <span
+        className={`${styles.formItem__groupLabel} ${
+          error ? styles.formItem__groupInput_error : ''
+        }`}
+      >
+        {caption}:
+      </span>
 
-  render() {
-    const { caption, type, items, name, isValid } = this.props;
+      {items.map((item) => (
+        <label className={styles.formItem__groupInput} key={item.value}>
+          <input {...register} type={type} value={item.value} />
+          &nbsp;{item.message || item.value}
+        </label>
+      ))}
 
-    return (
-      <div className={styles.group} data-testid="group-item">
-        <p className={`${styles.group__caption} ${!isValid ? styles.group__error : ''}`}>
-          {caption}
-        </p>
-        {!isValid && <p className={styles.group__errorMessage}>Error</p>}
-        {items.map((item) => (
-          <label key={item.label} className={styles.group__item}>
-            <input name={name} type={type} ref={item.innerRef} value={item.label} /> {item.label}
-          </label>
-        ))}
-      </div>
-    );
-  }
+      {error && <span className={styles.formItem__errorMessage}>Please select item</span>}
+    </div>
+  );
 }
