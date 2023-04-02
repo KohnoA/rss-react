@@ -1,5 +1,7 @@
+@import '../../../styles/variables.scss';
+
 .footer {
-  background-color: #202026;
+  background-color: $mainColor;
 
   box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.2);
 
@@ -17,7 +19,7 @@
     transition: 0.2s;
 
     &:hover {
-      color: #ccc;
+      color: $secondColor;
     }
   }
 }
