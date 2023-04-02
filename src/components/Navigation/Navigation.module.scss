@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .navigation {
   &__list {
     display: flex;
@@ -16,11 +18,11 @@
     transition: 0.2s;
 
     &:hover {
-      background-color: #ccc;
+      background-color: $secondColor;
     }
 
     &:active {
-      opacity: 0.7;
+      background-color: $activeColor;
     }
   }
 }
