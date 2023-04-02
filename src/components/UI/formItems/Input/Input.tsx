@@ -1,8 +1,8 @@
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
-import styles from '../CreateCard.module.scss';
+import styles from '../formItems.module.scss';
 import { HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
 
-interface InputItemProps {
+interface InputProps {
   label: string;
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
@@ -11,14 +11,14 @@ interface InputItemProps {
   error: FieldError | undefined;
 }
 
-export default function InputItem({
+export default function Input({
   label,
   placeholder,
   type,
   otherAttr,
   register,
   error,
-}: InputItemProps) {
+}: InputProps) {
   return (
     <label className={styles.formItem}>
       <span className={styles.formItem__label}>{label}:</span>

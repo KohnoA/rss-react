@@ -1,7 +1,7 @@
 import { UseFormRegisterReturn, FieldError } from 'react-hook-form';
-import styles from '../CreateCard.module.scss';
+import styles from '../formItems.module.scss';
 
-interface SelectItemProps {
+interface SelectProps {
   caption: string;
   defaultOption?: string;
   options: string[];
@@ -9,13 +9,7 @@ interface SelectItemProps {
   error: FieldError | undefined;
 }
 
-export default function SelectItem({
-  caption,
-  defaultOption,
-  options,
-  register,
-  error,
-}: SelectItemProps) {
+export default function Select({ caption, defaultOption, options, register, error }: SelectProps) {
   return (
     <label className={styles.formItem}>
       <span className={styles.formItem__label}>{caption}:</span>

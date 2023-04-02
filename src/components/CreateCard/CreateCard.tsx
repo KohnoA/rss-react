@@ -4,9 +4,9 @@ import styles from './CreateCard.module.scss';
 import Button from '../UI/Button/Button';
 import { START_LINE_CAPITAL_LETTER, CATEGORIES_OF_PRODUCTS } from 'src/constants/constants';
 import { IProduct } from 'src/types/IProduct';
-import GroupItem from './GroupItem/GroupItem';
-import SelectItem from './SelectItem/SelectItem';
-import InputItem from './InputItem/InputItem';
+import Group from '../UI/formItems/Group/Group';
+import Input from '../UI/formItems/Input/Input';
+import Select from '../UI/formItems/Select/Select';
 
 interface FormInputs {
   title: string;
@@ -38,7 +38,6 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
   };
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
     handlerAddCard({
       ...data,
       id: Date.now(),
@@ -50,7 +49,7 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
 
   return (
     <form className={styles.createCard} action="#" onSubmit={handleSubmit(onSubmit)}>
-      <InputItem
+      <Input
         label="Product name"
         placeholder="IPhone X"
         register={register('title', {
@@ -62,7 +61,7 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
         })}
         error={errors.title}
       />
-      <InputItem
+      <Input
         label="Price (&#8364;)"
         placeholder="49.99"
         type="number"
@@ -70,7 +69,7 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
         register={register('price', { required: true, valueAsNumber: true })}
         error={errors.price}
       />
-      <InputItem
+      <Input
         label="Rate"
         placeholder="4.5"
         type="number"
@@ -78,27 +77,27 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
         register={register('rate', { required: true, valueAsNumber: true })}
         error={errors.rate}
       />
-      <InputItem
+      <Input
         label="Data of purchase"
         type="date"
         register={register('date', { required: true })}
         error={errors.date}
       />
-      <InputItem
+      <Input
         label="Photo"
         type="file"
         otherAttr={{ accept: 'image/*' }}
         register={register('image', { required: true })}
         error={errors.image}
       />
-      <SelectItem
+      <Select
         caption="Category"
         defaultOption="Choose a category"
         options={CATEGORIES_OF_PRODUCTS}
         register={register('category', { required: true })}
         error={errors.category}
       />
-      <GroupItem
+      <Group
         caption="Tags"
         type="checkbox"
         register={register('tags', { required: true })}
@@ -108,7 +107,7 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
           { value: 'bargain', message: 'Bargaining possible' },
         ]}
       />
-      <GroupItem
+      <Group
         caption="Condition"
         type="radio"
         register={register('condition', { required: true })}

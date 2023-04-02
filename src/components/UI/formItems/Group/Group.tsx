@@ -1,7 +1,7 @@
 import { FieldError, Merge, UseFormRegisterReturn } from 'react-hook-form';
-import styles from '../CreateCard.module.scss';
+import styles from '../formItems.module.scss';
 
-interface GroupItemProps {
+interface GroupProps {
   caption: string;
   type: string;
   register: UseFormRegisterReturn;
@@ -12,7 +12,7 @@ interface GroupItemProps {
   }>;
 }
 
-export default function GroupItem({ caption, type, items, register, error }: GroupItemProps) {
+export default function Group({ caption, type, items, register, error }: GroupProps) {
   return (
     <div className={styles.formItem}>
       <span
