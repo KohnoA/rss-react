@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './SearchPanel.module.scss';
 import { LOCALSTORAGE_KEY_SEARCH } from 'src/constants/constants';
 
@@ -7,10 +7,17 @@ export default function SearchPanel() {
     const savedValue = localStorage.getItem(LOCALSTORAGE_KEY_SEARCH);
     return savedValue ? savedValue : '';
   });
+  const valueRef = useRef<string>('');
 
   useEffect(() => {
-    localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, value);
+    valueRef.current = value;
   }, [value]);
+
+  useEffect(() => {
+    return () => {
+      localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, valueRef.current);
+    };
+  }, []);
 
   return (
     <form
