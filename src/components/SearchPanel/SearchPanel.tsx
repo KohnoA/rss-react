@@ -1,16 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './SearchPanel.module.scss';
 import { LOCALSTORAGE_KEY_SEARCH } from 'src/constants/constants';
 
 export default function SearchPanel() {
-  const [value, setValue] = useState<string>(() => {
-    const savedValue = localStorage.getItem(LOCALSTORAGE_KEY_SEARCH);
-    return savedValue ? savedValue : '';
-  });
+  const [value, setValue] = useState<string>(localStorage.getItem(LOCALSTORAGE_KEY_SEARCH) ?? '');
+  const valueRef = useRef<string>('');
 
   useEffect(() => {
-    localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, value);
+    valueRef.current = value;
   }, [value]);
+
+  useEffect(() => {
+    const saveValueBeforeUnload = () => {
+      localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, valueRef.current);
+    };
+
+    window.addEventListener('beforeunload', saveValueBeforeUnload);
+
+    return () => {
+      localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, valueRef.current);
+
+      window.removeEventListener('beforeunload', saveValueBeforeUnload);
+    };
+  }, []);
 
   return (
     <form
