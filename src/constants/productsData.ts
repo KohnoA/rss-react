@@ -10,7 +10,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: true, bargain: true },
+    tags: ['urgently', 'bargain'],
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: true, bargain: false },
+    tags: ['urgently'],
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: false, bargain: false },
+    tags: [],
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: false, bargain: true },
+    tags: ['bargain'],
   },
   {
     id: 5,
@@ -54,7 +54,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: false, bargain: false },
+    tags: [],
   },
   {
     id: 6,
@@ -65,7 +65,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: false, bargain: false },
+    tags: ['bargain'],
   },
   {
     id: 7,
@@ -76,7 +76,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: true, bargain: true },
+    tags: ['urgently', 'bargain'],
   },
   {
     id: 8,
@@ -87,7 +87,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: false, bargain: false },
+    tags: [],
   },
   {
     id: 9,
@@ -98,7 +98,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: true, bargain: true },
+    tags: ['urgently', 'bargain'],
   },
   {
     id: 10,
@@ -109,7 +109,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: false, bargain: true },
+    tags: ['bargain'],
   },
   {
     id: 11,
@@ -120,7 +120,7 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: false, bargain: true },
+    tags: ['bargain'],
   },
   {
     id: 12,
@@ -131,6 +131,6 @@ export const PRODUCTS_DATA: IProduct[] = [
     date: '12-12-2012',
     category: 'smartphones',
     condition: 'New',
-    tags: { urgently: true, bargain: true },
+    tags: ['urgently', 'bargain'],
   },
 ];

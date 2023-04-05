@@ -7,8 +7,5 @@ export interface IProduct {
   date: string;
   category: string;
   condition: string;
-  tags: {
-    urgently: boolean;
-    bargain: boolean;
-  };
+  tags: string[];
 }

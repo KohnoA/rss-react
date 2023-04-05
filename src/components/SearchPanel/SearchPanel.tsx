@@ -1,58 +1,57 @@
-import { Component } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './SearchPanel.module.scss';
 import { LOCALSTORAGE_KEY_SEARCH } from 'src/constants/constants';
 
-interface SearchPanelState {
-  value: string;
-}
+export default function SearchPanel() {
+  const [value, setValue] = useState<string>(localStorage.getItem(LOCALSTORAGE_KEY_SEARCH) ?? '');
+  const valueRef = useRef<string>('');
 
-export default class SearchPanel extends Component<unknown, SearchPanelState> {
-  constructor(props: unknown) {
-    super(props);
-    this.state = {
-      value: '',
+  useEffect(() => {
+    valueRef.current = value;
+  }, [value]);
+
+  useEffect(() => {
+    const saveValueBeforeUnload = () => {
+      localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, valueRef.current);
     };
-  }
 
-  componentDidMount(): void {
-    const savedValue = localStorage.getItem(LOCALSTORAGE_KEY_SEARCH);
-    if (savedValue) this.setState({ value: savedValue });
-  }
+    window.addEventListener('beforeunload', saveValueBeforeUnload);
 
-  componentWillUnmount(): void {
-    localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, this.state.value);
-  }
+    return () => {
+      localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, valueRef.current);
 
-  render() {
-    return (
-      <form
-        className={styles.search}
-        action="#"
-        method="GET"
-        onSubmit={(event) => event.preventDefault()}
-        data-testid="search-panel"
-      >
-        <input
-          className={styles.search__input}
-          type="text"
-          placeholder="I want to find..."
-          value={this.state.value}
-          onChange={(event) => this.setState({ value: event.target.value })}
-        />
+      window.removeEventListener('beforeunload', saveValueBeforeUnload);
+    };
+  }, []);
 
-        {this.state.value && (
-          <>
-            <span
-              className={styles.search__clean}
-              onClick={() => this.setState({ value: '' })}
-              data-testid="clean-button"
-            />
-            <button className={styles.search__find} type="submit">
-              Search
-            </button>
-          </>
-        )}
-      </form>
-    );
-  }
+  return (
+    <form
+      className={styles.search}
+      action="#"
+      method="GET"
+      onSubmit={(event) => event.preventDefault()}
+      data-testid="search-panel"
+    >
+      <input
+        className={styles.search__input}
+        type="text"
+        placeholder="I want to find..."
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
+
+      {value && (
+        <>
+          <span
+            className={styles.search__clean}
+            onClick={() => setValue('')}
+            data-testid="clean-button"
+          />
+          <button className={styles.search__find} type="submit">
+            Search
+          </button>
+        </>
+      )}
+    </form>
+  );
 }

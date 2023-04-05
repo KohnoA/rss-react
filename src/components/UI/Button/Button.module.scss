@@ -1,3 +1,5 @@
+@import '../../../styles/variables.scss';
+
 .button {
   display: inline-block;
   padding: 10px 15px;
@@ -5,7 +7,7 @@
   font: inherit;
   color: white;
 
-  background-color: #202026;
+  background-color: $mainColor;
   border: 2px solid transparent;
   border-radius: 10px;
   transition: 0.2s;
@@ -13,10 +15,10 @@
 
   &:hover {
     color: black;
-    background-color: #ccc;
+    background-color: $secondColor;
   }
 
   &:active {
-    background-color: #b5b4b4;
+    background-color: $activeColor;
   }
 }
