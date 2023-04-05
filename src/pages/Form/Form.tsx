@@ -14,16 +14,10 @@ export default function Form() {
   return (
     <div className="container page" data-testid="page-form">
       <h2 className="title">Form</h2>
-
       <CreateCard handlerAddCard={handlerAddCard} />
 
       <h3 className={styles.form__subtitle}>Your Cards</h3>
-
-      {userCards.length ? (
-        <CardList cardsData={userCards} />
-      ) : (
-        <div className={styles.form__noData}>No cards yet 😞</div>
-      )}
+      <CardList cardsData={userCards} />
     </div>
   );
 }
