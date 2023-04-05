@@ -27,19 +27,20 @@ export default function Card({ data }: CardProps) {
         data-testid="card-image"
       />
 
-      <p className={styles.card__title}>
-        {title} ({condition})
-      </p>
+      <div className={styles.card__infoWrapper}>
+        <p className={styles.card__title}>
+          {title} ({condition})
+        </p>
 
-      <p className={styles.card__category}>{category}</p>
-      <p className={styles.card__price}>&#8364;{price}</p>
+        <p className={styles.card__category}>{category}</p>
+        <p className={styles.card__price}>&#8364;{price}</p>
 
-      <div className={styles.card__rating}>
-        <span data-testid="card-rate">Rate: {rate}</span>
-        <span data-testid="card-date">Date: {date}</span>
+        <div className={styles.card__rating}>
+          <span data-testid="card-rate">Rate: {rate}</span>
+          <span data-testid="card-date">Date: {date}</span>
+        </div>
+        <Button text="Buy Now" additionalClasses={styles.card__button} />
       </div>
-
-      <Button text="Buy Now" additionalClasses={styles.card__button} />
     </div>
   );
 }
