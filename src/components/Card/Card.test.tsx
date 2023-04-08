@@ -20,7 +20,9 @@ describe('testing Card component', () => {
     expect(screen.getByText(mockData.category)).toBeInTheDocument();
     expect(screen.getByText(new RegExp(`${mockData.price}`, 'i'))).toBeInTheDocument();
     expect(screen.getByTestId('card-rate')).toContainHTML(`Rate: ${mockData.rate}`);
-    expect(screen.getByTestId('card-date')).toContainHTML(`Date: ${mockData.date}`);
+    expect(screen.getByTestId('card-date')).toContainHTML(
+      `Date: ${mockData.date.replace(/-/g, '.')}`
+    );
     expect(screen.getByTestId('card-image')).toHaveStyle({
       backgroundImage: mockData.image,
     });

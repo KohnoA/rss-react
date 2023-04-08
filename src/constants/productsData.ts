@@ -11,6 +11,8 @@ export const PRODUCTS_DATA: IProduct[] = [
     category: 'smartphones',
     condition: 'New',
     tags: ['urgently', 'bargain'],
+    description:
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur, assumenda? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur, assumenda? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur, assumenda?',
   },
   {
     id: 2,
