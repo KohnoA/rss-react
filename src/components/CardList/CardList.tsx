@@ -4,9 +4,10 @@ import { IProduct } from 'src/types/IProduct';
 
 interface CardListProps {
   cardsData: IProduct[];
+  emptyMessage: string;
 }
 
-export default function CardList({ cardsData }: CardListProps) {
+export default function CardList({ cardsData, emptyMessage }: CardListProps) {
   return cardsData.length ? (
     <div className={styles.cardList} data-testid="card-list">
       {cardsData.map((item) => (
@@ -14,6 +15,6 @@ export default function CardList({ cardsData }: CardListProps) {
       ))}
     </div>
   ) : (
-    <div className={styles.cardList__noData}>No cards yet 😞</div>
+    <div className={styles.cardList__noData}>{emptyMessage} 😞</div>
   );
 }

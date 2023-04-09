@@ -17,7 +17,7 @@ export default function Form() {
       <CreateCard handlerAddCard={handlerAddCard} />
 
       <h3 className={styles.form__subtitle}>Your Cards</h3>
-      <CardList cardsData={userCards} />
+      <CardList cardsData={userCards} emptyMessage="No cards yet" />
     </div>
   );
 }

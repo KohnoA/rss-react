@@ -1,35 +1,46 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './SearchPanel.module.scss';
-import { LOCALSTORAGE_KEY_SEARCH } from 'src/constants/constants';
+import { LOCALSTORAGE_SEARCH } from 'src/constants/constants';
+import { useSearchParams } from 'react-router-dom';
+import { URL_KEY_SEARCH } from 'src/constants/constants';
 
 export default function SearchPanel() {
-  const [value, setValue] = useState<string>(localStorage.getItem(LOCALSTORAGE_KEY_SEARCH) ?? '');
-  const valueRef = useRef<string>('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [value, setValue] = useState<string>(localStorage.getItem(LOCALSTORAGE_SEARCH) ?? '');
 
   useEffect(() => {
-    valueRef.current = value;
-  }, [value]);
+    if (value) {
+      searchParams.set(URL_KEY_SEARCH, value);
+      setSearchParams(searchParams);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    const saveValueBeforeUnload = () => {
-      localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, valueRef.current);
-    };
+  const handleSubmit = (event: React.FormEvent) => {
+    if (value) {
+      searchParams.set(URL_KEY_SEARCH, value);
+      localStorage.setItem(LOCALSTORAGE_SEARCH, value);
+    } else {
+      searchParams.delete(URL_KEY_SEARCH);
+      localStorage.removeItem(LOCALSTORAGE_SEARCH);
+    }
 
-    window.addEventListener('beforeunload', saveValueBeforeUnload);
+    setSearchParams(searchParams);
+    event.preventDefault();
+  };
 
-    return () => {
-      localStorage.setItem(LOCALSTORAGE_KEY_SEARCH, valueRef.current);
-
-      window.removeEventListener('beforeunload', saveValueBeforeUnload);
-    };
-  }, []);
+  const clearSearchPanel = () => {
+    searchParams.delete(URL_KEY_SEARCH);
+    localStorage.removeItem(LOCALSTORAGE_SEARCH);
+    setSearchParams(searchParams);
+    setValue('');
+  };
 
   return (
     <form
       className={styles.search}
       action="#"
       method="GET"
-      onSubmit={(event) => event.preventDefault()}
+      onSubmit={handleSubmit}
       data-testid="search-panel"
     >
       <input
@@ -39,19 +50,14 @@ export default function SearchPanel() {
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
-
-      {value && (
-        <>
-          <span
-            className={styles.search__clean}
-            onClick={() => setValue('')}
-            data-testid="clean-button"
-          />
-          <button className={styles.search__find} type="submit">
-            Search
-          </button>
-        </>
-      )}
+      <span
+        className={styles.search__clean}
+        onClick={clearSearchPanel}
+        data-testid="clean-button"
+      />
+      <button className={styles.search__find} type="submit">
+        Search
+      </button>
     </form>
   );
 }
