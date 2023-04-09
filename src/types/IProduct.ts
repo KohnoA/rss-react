@@ -8,4 +8,5 @@ export interface IProduct {
   category: string;
   condition: string;
   tags: string[];
+  description?: string;
 }

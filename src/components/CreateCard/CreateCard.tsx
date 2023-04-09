@@ -7,6 +7,7 @@ import { IProduct } from 'src/types/IProduct';
 import Group from '../UI/formItems/Group/Group';
 import Input from '../UI/formItems/Input/Input';
 import Select from '../UI/formItems/Select/Select';
+import Modal from '../UI/Modal/Modal';
 
 interface FormInputs {
   title: string;
@@ -48,7 +49,7 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
   };
 
   return (
-    <form className={styles.createCard} action="#" onSubmit={handleSubmit(onSubmit)}>
+    <form className={styles.createCard} onSubmit={handleSubmit(onSubmit)} data-testid="create-card">
       <Input
         label="Product name"
         placeholder="IPhone X"
@@ -74,11 +75,16 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
         placeholder="4.5"
         type="number"
         otherAttr={{ step: 'any' }}
-        register={register('rate', { required: true, valueAsNumber: true })}
+        register={register('rate', {
+          required: true,
+          valueAsNumber: true,
+          max: { value: 5, message: 'Maximum possible rating: 5' },
+          min: { value: 1, message: 'Minimum possible rating: 1' },
+        })}
         error={errors.rate}
       />
       <Input
-        label="Data of purchase"
+        label="Date of purchase"
         type="date"
         register={register('date', { required: true })}
         error={errors.date}
@@ -114,7 +120,9 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
         error={errors.condition}
         items={[{ value: 'New' }, { value: 'Used' }]}
       />
-      {confirm && <div className={styles.createCard__confirm}>&#10003; Card created!</div>}
+      <Modal isActive={confirm} onClose={() => setConfirm(false)}>
+        <div className={styles.createCard__confirm}>&#10003; Successful, card created</div>
+      </Modal>
       <Button additionalClasses={styles.createCard__create} text="Create New Card" />
     </form>
   );
