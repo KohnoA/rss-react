@@ -22,7 +22,7 @@ export default function CardList({ cardsData, emptyMessage }: CardListProps) {
       </div>
 
       <Modal isActive={!!currentCardId} onClose={() => setCurrentCardId(null)}>
-        <CardDetails id={currentCardId as number} />
+        {!!currentCardId && <CardDetails id={currentCardId} />}
       </Modal>
     </>
   ) : (

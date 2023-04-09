@@ -8,15 +8,11 @@ interface ModalProps {
 
 export default function Modal({ isActive, onClose, children }: ModalProps) {
   return (
-    <>
-      {isActive && (
-        <div className={styles.modal} onClick={onClose}>
-          <div className={styles.modal__content} onClick={(event) => event.stopPropagation()}>
-            <span className={styles.modal__close} onClick={onClose} />
-            {children}
-          </div>
-        </div>
-      )}
-    </>
+    <div className={`${styles.modal} ${isActive ? styles.modal_active : ''}`} onClick={onClose}>
+      <div className={styles.modal__content} onClick={(event) => event.stopPropagation()}>
+        <span className={styles.modal__close} onClick={onClose} />
+        {children || <div className={styles.modal__empty}></div>}
+      </div>
+    </div>
   );
 }
