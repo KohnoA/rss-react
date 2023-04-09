@@ -27,7 +27,7 @@ export default function Main() {
 
       <SearchPanel />
 
-      {isLoading ? <Loader /> : <CardList cardsData={cardsData} emptyMessage="Cards not found" />}
+      {isLoading ? <Loader /> : <CardList cardsData={cardsData} />}
     </div>
   );
 }

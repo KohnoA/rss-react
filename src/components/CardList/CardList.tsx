@@ -4,7 +4,7 @@ import { IProduct } from 'src/types/IProduct';
 
 interface CardListProps {
   cardsData: IProduct[];
-  emptyMessage: string;
+  emptyMessage?: string;
 }
 
 export default function CardList({ cardsData, emptyMessage }: CardListProps) {
@@ -15,6 +15,6 @@ export default function CardList({ cardsData, emptyMessage }: CardListProps) {
       ))}
     </div>
   ) : (
-    <div className={styles.cardList__noData}>{emptyMessage} 😞</div>
+    <div className={styles.cardList__noData}>{emptyMessage || 'Cards not found'} 😞</div>
   );
 }

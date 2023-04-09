@@ -1,23 +1,36 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import SearchPanel from './SearchPanel';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('testing SearchPanel component', () => {
   it('should be displayed', () => {
-    render(<SearchPanel />);
+    render(
+      <MemoryRouter>
+        <SearchPanel />
+      </MemoryRouter>
+    );
 
     expect(screen.getByTestId('search-panel')).toBeInTheDocument();
   });
 
-  it('should be displayed correctly, without cross and search button', () => {
-    render(<SearchPanel />);
+  it('should be displayed correctly, with cross and search button', () => {
+    render(
+      <MemoryRouter>
+        <SearchPanel />
+      </MemoryRouter>
+    );
 
     expect(screen.getByPlaceholderText(/I want to find.../i)).toBeInTheDocument();
-    expect(screen.queryByTestId('clean-button')).toBeNull();
-    expect(screen.queryByText(/Search/i)).toBeNull();
+    expect(screen.getByTestId('clean-button')).toBeInTheDocument();
+    expect(screen.getByText(/Search/i)).toBeInTheDocument();
   });
 
   it('the cross and search button should be displayed if input is not empty', () => {
-    render(<SearchPanel />);
+    render(
+      <MemoryRouter>
+        <SearchPanel />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -29,7 +42,11 @@ describe('testing SearchPanel component', () => {
   });
 
   it('the input should be cleared when you click on the cross', () => {
-    render(<SearchPanel />);
+    render(
+      <MemoryRouter>
+        <SearchPanel />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -41,7 +58,11 @@ describe('testing SearchPanel component', () => {
   });
 
   it('When the component is unmounted, the form value must be preserved', () => {
-    const { unmount } = render(<SearchPanel />);
+    const { unmount } = render(
+      <MemoryRouter>
+        <SearchPanel />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -49,7 +70,11 @@ describe('testing SearchPanel component', () => {
     });
 
     unmount();
-    render(<SearchPanel />);
+    render(
+      <MemoryRouter>
+        <SearchPanel />
+      </MemoryRouter>
+    );
 
     expect(input).toHaveValue('T-Shirt');
   });
