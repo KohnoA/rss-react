@@ -19,6 +19,9 @@
   &__content {
     position: relative;
 
+    min-width: 150px;
+    min-height: 100px;
+
     margin: 0 15px;
     padding: 20px;
 
@@ -52,10 +55,5 @@
   &_active {
     pointer-events: all;
     opacity: 1;
-  }
-
-  &__empty {
-    width: 50px;
-    height: 25px;
   }
 }
