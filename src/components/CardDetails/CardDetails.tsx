@@ -26,11 +26,15 @@ export default function CardDetails({ id }: CardDetailsProps) {
     return <div className={styles.details__error}>{error}</div>;
   }
 
-  return isLoading ? (
-    <div className={styles.details__loader}>
-      <Loader />
-    </div>
-  ) : (
+  if (isLoading) {
+    return (
+      <div className={styles.details__loader}>
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
     <div className={styles.details}>
       <h2 className={styles.details__title}>
         {cardData?.title ?? 'No Data'} ({cardData?.condition ?? 'No Data'})
