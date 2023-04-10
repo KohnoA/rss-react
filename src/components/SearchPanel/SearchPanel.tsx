@@ -1,38 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './SearchPanel.module.scss';
 import { LOCALSTORAGE_SEARCH } from 'src/constants/constants';
-import { useSearchParams } from 'react-router-dom';
-import { URL_KEY_SEARCH } from 'src/constants/constants';
 
-export default function SearchPanel() {
-  const [searchParams, setSearchParams] = useSearchParams();
+interface SearchPanelProps {
+  changeFilter: (value: string) => void;
+}
+
+export default function SearchPanel({ changeFilter }: SearchPanelProps) {
   const [value, setValue] = useState<string>(localStorage.getItem(LOCALSTORAGE_SEARCH) ?? '');
 
-  useEffect(() => {
-    if (value) {
-      searchParams.set(URL_KEY_SEARCH, value);
-      setSearchParams(searchParams);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleSubmit = (event: React.FormEvent) => {
-    if (value) {
-      searchParams.set(URL_KEY_SEARCH, value);
-      localStorage.setItem(LOCALSTORAGE_SEARCH, value);
-    } else {
-      searchParams.delete(URL_KEY_SEARCH);
-      localStorage.removeItem(LOCALSTORAGE_SEARCH);
-    }
+    if (value) localStorage.setItem(LOCALSTORAGE_SEARCH, value);
+    else localStorage.removeItem(LOCALSTORAGE_SEARCH);
 
-    setSearchParams(searchParams);
+    changeFilter(value);
     event.preventDefault();
   };
 
   const clearSearchPanel = () => {
-    searchParams.delete(URL_KEY_SEARCH);
     localStorage.removeItem(LOCALSTORAGE_SEARCH);
-    setSearchParams(searchParams);
     setValue('');
+    changeFilter('');
   };
 
   return (
