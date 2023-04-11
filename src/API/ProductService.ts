@@ -16,7 +16,7 @@ export default class ProductService {
   }
 
   public static async getItem(id: number): Promise<IProduct> {
-    const response = await axios(`${API_BASE_URL}/${id}`);
+    const response = await axios.get(`${API_BASE_URL}/${id}`);
 
     return response.data;
   }

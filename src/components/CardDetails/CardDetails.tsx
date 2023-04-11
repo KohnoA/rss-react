@@ -35,12 +35,13 @@ export default function CardDetails({ id }: CardDetailsProps) {
   }
 
   return (
-    <div className={styles.details}>
+    <div className={styles.details} data-testid="details">
       <h2 className={styles.details__title}>
         {cardData?.title ?? 'No Data'} ({cardData?.condition ?? 'No Data'})
       </h2>
 
       <span
+        data-testid="details-image"
         className={styles.details__image}
         style={{ backgroundImage: `url(${cardData?.image})` }}
       />
