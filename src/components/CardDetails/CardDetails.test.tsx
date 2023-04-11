@@ -27,6 +27,11 @@ describe('testing CardDetails component', () => {
     mockAxios.get.mockReset();
   });
 
+  afterAll(() => {
+    vi.clearAllMocks;
+    vi.resetAllMocks;
+  });
+
   it('should be displayed', async () => {
     mockAxios.get.mockResolvedValue({ data: mockData });
     renderComponent();
