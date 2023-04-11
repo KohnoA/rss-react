@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import CardList from './CardList';
 import { IProduct } from 'src/types/IProduct';
 
@@ -39,12 +39,10 @@ const mockData: IProduct[] = [
 ];
 
 describe('testing CardList component', () => {
-  it('should be displayed', async () => {
+  it('should be displayed', () => {
     render(<CardList cardsData={mockData} />);
 
-    await waitFor(() => {
-      expect(screen.getByTestId('card-list')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('card-list')).toBeInTheDocument();
   });
 
   it('should display a list of cards', async () => {
@@ -52,5 +50,21 @@ describe('testing CardList component', () => {
 
     const cardsData = screen.getAllByTestId('card');
     expect(cardsData.length).toBe(mockData.length);
+  });
+
+  it('clicking on the card should show the details', async () => {
+    render(<CardList cardsData={mockData} />);
+
+    fireEvent.click(screen.getAllByTestId('card')[0]);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('details')).toBeInTheDocument();
+    });
+  });
+
+  it('if there is no data, a message should be displayed', () => {
+    render(<CardList cardsData={[]} emptyMessage="Test message" />);
+
+    expect(screen.getByText(/Test message/i)).toBeInTheDocument();
   });
 });
