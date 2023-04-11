@@ -1,50 +1,80 @@
 import Button from '../UI/Button/Button';
 import styles from './CardDetails.module.scss';
 import { IProduct } from 'src/types/IProduct';
+import { useEffect, useState } from 'react';
+import ProductService from 'src/API/ProductService';
+import Loader from '../UI/Loader/Loader';
 
 interface CardDetailsProps {
-  data: IProduct;
+  id: number;
 }
 
-export default function CardDetails({ data }: CardDetailsProps) {
-  const { title, image, category, price, rate, date, condition, tags, description } = data;
+export default function CardDetails({ id }: CardDetailsProps) {
+  const [cardData, setCardData] = useState<IProduct>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    setIsLoading(true);
+    ProductService.getItem(id)
+      .then((res) => setCardData(res))
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoading(false));
+  }, [id]);
+
+  if (error) {
+    return <div className={styles.details__error}>{error}</div>;
+  }
+
+  if (isLoading) {
+    return (
+      <div className={styles.details__loader}>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.details}>
+    <div className={styles.details} data-testid="details">
       <h2 className={styles.details__title}>
-        {title} ({condition})
+        {cardData?.title ?? 'No Data'} ({cardData?.condition ?? 'No Data'})
       </h2>
 
-      <span className={styles.details__image} style={{ backgroundImage: `url(${image})` }} />
+      <span
+        data-testid="details-image"
+        className={styles.details__image}
+        style={{ backgroundImage: `url(${cardData?.image})` }}
+      />
 
       <ul className={styles.details__info}>
         <li className={styles.details__infoItem}>
           <b>Date of purchase: </b>
-          {date.replace(/-/g, '.')}
+          {cardData?.date.replace(/-/g, '.') ?? 'No Data'}
         </li>
 
         <li className={styles.details__infoItem}>
           <b>Category: </b>
-          {category}
+          {cardData?.category ?? 'No Data'}
         </li>
 
         <li className={styles.details__infoItem}>
-          <b>Price:</b> &#8364;{price}
+          <b>Price:</b> &#8364;{cardData?.price ?? 'No Data'}
         </li>
 
         <li className={styles.details__infoItem}>
           <b>Rate: </b>
-          {rate}
+          {cardData?.rate ?? 'No Data'}
         </li>
 
         <li className={styles.details__infoItem}>
           <b>Tags: </b>
-          <i>{tags.length ? tags.map((item) => `#${item}`).join(' ') : 'No Data'}</i>
+          <i>{cardData?.tags.map((item) => `#${item}`).join(' ') || 'No Data'}</i>
         </li>
 
         <li className={styles.details__infoItem}>
-          <b>Description:</b> {description || 'No Data'}
+          <b>Description:</b> {cardData?.description ?? 'No Data'}
         </li>
+
         <Button text="Buy Now" additionalClasses={styles.details__button} />
       </ul>
     </div>

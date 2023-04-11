@@ -1,24 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import SearchPanel from './SearchPanel';
-import { MemoryRouter } from 'react-router-dom';
+import { vi } from 'vitest';
+
+const mockFunc = vi.fn();
 
 describe('testing SearchPanel component', () => {
   it('should be displayed', () => {
-    render(
-      <MemoryRouter>
-        <SearchPanel />
-      </MemoryRouter>
-    );
+    render(<SearchPanel changeFilter={mockFunc} />);
 
     expect(screen.getByTestId('search-panel')).toBeInTheDocument();
   });
 
   it('should be displayed correctly, with cross and search button', () => {
-    render(
-      <MemoryRouter>
-        <SearchPanel />
-      </MemoryRouter>
-    );
+    render(<SearchPanel changeFilter={mockFunc} />);
 
     expect(screen.getByPlaceholderText(/I want to find.../i)).toBeInTheDocument();
     expect(screen.getByTestId('clean-button')).toBeInTheDocument();
@@ -26,11 +20,7 @@ describe('testing SearchPanel component', () => {
   });
 
   it('the cross and search button should be displayed if input is not empty', () => {
-    render(
-      <MemoryRouter>
-        <SearchPanel />
-      </MemoryRouter>
-    );
+    render(<SearchPanel changeFilter={mockFunc} />);
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -42,11 +32,7 @@ describe('testing SearchPanel component', () => {
   });
 
   it('the input should be cleared when you click on the cross', () => {
-    render(
-      <MemoryRouter>
-        <SearchPanel />
-      </MemoryRouter>
-    );
+    render(<SearchPanel changeFilter={mockFunc} />);
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -58,11 +44,7 @@ describe('testing SearchPanel component', () => {
   });
 
   it('When the component is unmounted, the form value must be preserved', () => {
-    const { unmount } = render(
-      <MemoryRouter>
-        <SearchPanel />
-      </MemoryRouter>
-    );
+    const { unmount } = render(<SearchPanel changeFilter={mockFunc} />);
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -70,11 +52,7 @@ describe('testing SearchPanel component', () => {
     });
 
     unmount();
-    render(
-      <MemoryRouter>
-        <SearchPanel />
-      </MemoryRouter>
-    );
+    render(<SearchPanel changeFilter={mockFunc} />);
 
     expect(input).toHaveValue('T-Shirt');
   });

@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import styles from './Header.module.scss';
-import Navigation from 'src/components/Navigation/Navigation';
+import Navigation from 'src/components/UI/Navigation/Navigation';
 import { APP_ROUTES } from 'src/constants/appRoutes';
 
 export default function Header() {

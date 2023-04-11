@@ -1,33 +1,61 @@
 import { useEffect, useState } from 'react';
-import { useFetching } from 'src/hooks/useFetching';
 import SearchPanel from 'src/components/SearchPanel/SearchPanel';
+import Pagination from 'src/components/UI/Pagination/Pagination';
 import CardList from 'src/components/CardList/CardList';
 import Loader from 'src/components/UI/Loader/Loader';
-import { IProduct } from 'src/types/IProduct';
 import ProductService from 'src/API/ProductService';
-import { useSearchParams } from 'react-router-dom';
-import { LOCALSTORAGE_SEARCH, URL_KEY_SEARCH } from 'src/constants/constants';
+import { IProduct } from 'src/types/IProduct';
+import {
+  LOCALSTORAGE_SEARCH,
+  LOCALSTORAGE_CURRENT_PAGE,
+  DEFAULT_PAGE_LIMIT,
+} from 'src/constants/constants';
 
 export default function Main() {
   const [cardsData, setCardsData] = useState<IProduct[]>([]);
-  const [searchParams] = useSearchParams();
-  const filter =
-    searchParams.get(URL_KEY_SEARCH) || localStorage.getItem(LOCALSTORAGE_SEARCH) || '';
-  const [getCardsData, isLoading] = useFetching(async () => {
-    setCardsData(await ProductService.getAll(filter));
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [filter, setFilter] = useState(localStorage.getItem(LOCALSTORAGE_SEARCH) ?? '');
+  const [isShowPagination, setIsShowPagination] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>();
+  const [currentPage, setCurrentPage] = useState<number>(() => {
+    const saveCurrentPage = localStorage.getItem(LOCALSTORAGE_CURRENT_PAGE);
+    const initialPage = 1;
+
+    return saveCurrentPage ? Number(saveCurrentPage) : initialPage;
   });
 
   useEffect(() => {
-    getCardsData();
-  }, [filter]); // eslint-disable-line react-hooks/exhaustive-deps
+    setIsLoading(true);
+
+    ProductService.getAll(filter, currentPage)
+      .then((res) => {
+        const [cards, total] = res;
+
+        setCardsData(cards);
+        setTotalPages(Math.ceil(total / DEFAULT_PAGE_LIMIT));
+        setIsShowPagination(total > DEFAULT_PAGE_LIMIT);
+      })
+      .catch((err) => console.error(err.message))
+      .finally(() => setIsLoading(false));
+  }, [filter, currentPage]);
 
   return (
     <div className="container page" data-testid="page-main">
       <h2 className="title">Main</h2>
 
-      <SearchPanel />
+      <SearchPanel changeFilter={setFilter} />
 
-      {isLoading ? <Loader /> : <CardList cardsData={cardsData} />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <CardList cardsData={cardsData} />
+
+          {isShowPagination && totalPages && (
+            <Pagination current={currentPage} total={totalPages} setCurrentPage={setCurrentPage} />
+          )}
+        </>
+      )}
     </div>
   );
 }
