@@ -12,15 +12,10 @@
   align-items: center;
 
   background-color: rgba(0, 0, 0, 0.5);
-  transition: 0.3s;
-  opacity: 0;
-  pointer-events: none;
+  animation: fade 0.3s;
 
   &__content {
     position: relative;
-
-    min-width: 150px;
-    min-height: 100px;
 
     margin: 0 15px;
     padding: 20px;
@@ -51,9 +46,14 @@
       opacity: 0.7;
     }
   }
+}
 
-  &_active {
-    pointer-events: all;
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
     opacity: 1;
   }
 }
