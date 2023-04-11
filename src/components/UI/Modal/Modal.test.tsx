@@ -49,7 +49,6 @@ describe('testing Modal component', () => {
       </Modal>
     );
 
-    screen.debug();
     expect(screen.queryByTestId('modal-content')).toBeNull();
   });
 });
