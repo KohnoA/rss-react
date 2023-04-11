@@ -1,18 +1,19 @@
 import axios from 'axios';
-import { API_BASE_URL } from 'src/constants/constants';
+import { API_BASE_URL, DEFAULT_PAGE_LIMIT } from 'src/constants/constants';
 import { IProduct } from 'src/types/IProduct';
+import { PSGetAllReturn } from 'src/types/types';
 
 export default class ProductService {
-  public static async getAll(filter?: string, page = 1, limit = 12): Promise<IProduct[]> {
+  public static async getAll(filter?: string, page = 1, limit?: number): PSGetAllReturn {
     const response = await axios.get(API_BASE_URL, {
       params: {
         q: filter ? filter : undefined,
-        _limit: limit,
+        _limit: limit ?? DEFAULT_PAGE_LIMIT,
         _page: page,
       },
     });
 
-    return response.data;
+    return [response.data, response.headers['x-total-count']];
   }
 
   public static async getItem(id: number): Promise<IProduct> {

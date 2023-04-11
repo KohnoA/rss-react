@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from './SearchPanel.module.scss';
 import { LOCALSTORAGE_SEARCH } from 'src/constants/constants';
 
@@ -6,7 +6,7 @@ interface SearchPanelProps {
   changeFilter: (value: string) => void;
 }
 
-export default function SearchPanel({ changeFilter }: SearchPanelProps) {
+function SearchPanel({ changeFilter }: SearchPanelProps) {
   const [value, setValue] = useState<string>(localStorage.getItem(LOCALSTORAGE_SEARCH) ?? '');
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -49,3 +49,5 @@ export default function SearchPanel({ changeFilter }: SearchPanelProps) {
     </form>
   );
 }
+
+export default React.memo(SearchPanel);

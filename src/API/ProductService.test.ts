@@ -16,12 +16,16 @@ describe('testing PrdouctService', () => {
       { id: 2, title: 'test2' },
     ];
 
-    mockAxios.get.mockResolvedValue({ data: mockData });
+    mockAxios.get.mockResolvedValue({
+      data: mockData,
+      headers: { 'x-total-count': mockData.length },
+    });
 
-    const responseData = await ProductService.getAll();
+    const [responseData, total] = await ProductService.getAll();
 
     expect(mockAxios.get).toBeCalledTimes(1);
     expect(responseData).toStrictEqual(mockData);
+    expect(total).toStrictEqual(mockData.length);
   });
 
   it('testing ProductService.getItem', async () => {
