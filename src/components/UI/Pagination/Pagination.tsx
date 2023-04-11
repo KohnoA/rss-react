@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Button from '../Button/Button';
 import styles from './Pagination.module.scss';
 import { LOCALSTORAGE_CURRENT_PAGE } from 'src/constants/constants';
@@ -10,11 +9,10 @@ interface PaginationProps {
 }
 
 export default function Pagination({ current, total, setCurrentPage }: PaginationProps) {
-  useEffect(() => {
-    return () => {
-      localStorage.setItem(LOCALSTORAGE_CURRENT_PAGE, String(current));
-    };
-  }, [current]);
+  const currentPageHandler = (page: number) => {
+    setCurrentPage(page);
+    localStorage.setItem(LOCALSTORAGE_CURRENT_PAGE, String(page));
+  };
 
   return (
     <div className={styles.pagination}>
@@ -24,7 +22,7 @@ export default function Pagination({ current, total, setCurrentPage }: Paginatio
         return (
           <Button
             key={numberOfPage}
-            onClick={() => setCurrentPage(numberOfPage)}
+            onClick={() => currentPageHandler(numberOfPage)}
             text={`${numberOfPage}`}
             {...(numberOfPage === current ? { additionalClasses: styles.pagination__current } : {})}
           />

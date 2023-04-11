@@ -12,6 +12,7 @@ import {
 } from 'src/constants/constants';
 
 export default function Main() {
+  const initialPage = 1;
   const [cardsData, setCardsData] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filter, setFilter] = useState(localStorage.getItem(LOCALSTORAGE_SEARCH) ?? '');
@@ -19,7 +20,6 @@ export default function Main() {
   const [totalPages, setTotalPages] = useState<number>();
   const [currentPage, setCurrentPage] = useState<number>(() => {
     const saveCurrentPage = localStorage.getItem(LOCALSTORAGE_CURRENT_PAGE);
-    const initialPage = 1;
 
     return saveCurrentPage ? Number(saveCurrentPage) : initialPage;
   });
@@ -39,11 +39,17 @@ export default function Main() {
       .finally(() => setIsLoading(false));
   }, [filter, currentPage]);
 
+  const filterChangeHandler = (value: string) => {
+    setFilter(value);
+    setCurrentPage(initialPage);
+    localStorage.removeItem(LOCALSTORAGE_CURRENT_PAGE);
+  };
+
   return (
     <div className="container page" data-testid="page-main">
       <h2 className="title">Main</h2>
 
-      <SearchPanel changeFilter={setFilter} />
+      <SearchPanel changeFilter={filterChangeHandler} />
 
       {isLoading ? (
         <Loader />
