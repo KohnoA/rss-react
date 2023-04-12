@@ -1,0 +1,25 @@
+@import '../../../styles/variables.scss';
+
+.footer {
+  background-color: $mainColor;
+
+  box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.2);
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__link {
+    padding: 25px;
+
+    color: white;
+    font-weight: 700;
+
+    transition: 0.2s;
+
+    &:hover {
+      color: $secondColor;
+    }
+  }
+}

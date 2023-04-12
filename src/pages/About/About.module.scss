@@ -1,0 +1,14 @@
+.about {
+  &__title {
+    margin-bottom: 30px;
+
+    text-align: center;
+  }
+
+  &__description {
+    max-width: 1000px;
+    margin: 0 auto;
+
+    text-align: center;
+  }
+}
