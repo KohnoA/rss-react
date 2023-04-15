@@ -5,17 +5,15 @@ import CardList from 'src/components/CardList/CardList';
 import Loader from 'src/components/UI/Loader/Loader';
 import ProductService from 'src/API/ProductService';
 import { IProduct } from 'src/types/IProduct';
-import {
-  LOCALSTORAGE_SEARCH,
-  LOCALSTORAGE_CURRENT_PAGE,
-  DEFAULT_PAGE_LIMIT,
-} from 'src/constants/constants';
+import { LOCALSTORAGE_CURRENT_PAGE, DEFAULT_PAGE_LIMIT } from 'src/constants/constants';
+import { useAppSelector } from 'src/hooks/redux';
 
 export default function Main() {
+  const searchQuery = useAppSelector((state) => state.search);
   const initialPage = 1;
   const [cardsData, setCardsData] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [filter, setFilter] = useState(localStorage.getItem(LOCALSTORAGE_SEARCH) ?? '');
+  const [filter, setFilter] = useState(searchQuery);
   const [isShowPagination, setIsShowPagination] = useState<boolean>(false);
   const [totalPages, setTotalPages] = useState<number>();
   const [currentPage, setCurrentPage] = useState<number>(() => {
