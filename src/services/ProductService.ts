@@ -18,7 +18,12 @@ export const productApi = createApi({
         },
       }),
     }),
+    getProduct: builder.query<IProduct, number>({
+      query: (id: number) => ({
+        url: `${API_ENDPOINT_CATALOG}/${id}`,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllProductsQuery } = productApi;
+export const { useGetAllProductsQuery, useGetProductQuery } = productApi;
