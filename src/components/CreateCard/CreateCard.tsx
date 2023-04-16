@@ -42,9 +42,9 @@ export default function CreateCard() {
         ...data,
         id: Date.now(),
         image: URL.createObjectURL(data.image[0]),
+        isUserCard: true,
       })
     );
-
     showConfirmMessage();
     reset();
   };

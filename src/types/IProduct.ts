@@ -9,4 +9,5 @@ export interface IProduct {
   condition: string;
   tags: string[];
   description?: string;
+  isUserCard?: boolean;
 }
