@@ -3,11 +3,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from './CreateCard.module.scss';
 import Button from '../UI/Button/Button';
 import { START_LINE_CAPITAL_LETTER, CATEGORIES_OF_PRODUCTS } from 'src/constants/constants';
-import { IProduct } from 'src/types/IProduct';
 import Group from '../UI/formItems/Group/Group';
 import Input from '../UI/formItems/Input/Input';
 import Select from '../UI/formItems/Select/Select';
 import Modal from '../UI/Modal/Modal';
+import { useAppDispatch } from 'src/hooks/redux';
+import { addUserCard } from 'src/store/reducers/userSlice';
 
 interface FormInputs {
   title: string;
@@ -20,11 +21,8 @@ interface FormInputs {
   tags: string[];
 }
 
-interface CreateCardProps {
-  handlerAddCard: (newCard: IProduct) => void;
-}
-
-export default function CreateCard({ handlerAddCard }: CreateCardProps) {
+export default function CreateCard() {
+  const dispatch = useAppDispatch();
   const [confirm, setConfirm] = useState<boolean>(false);
   const {
     register,
@@ -39,11 +37,14 @@ export default function CreateCard({ handlerAddCard }: CreateCardProps) {
   };
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    handlerAddCard({
-      ...data,
-      id: Date.now(),
-      image: URL.createObjectURL(data.image[0]),
-    });
+    dispatch(
+      addUserCard({
+        ...data,
+        id: Date.now(),
+        image: URL.createObjectURL(data.image[0]),
+      })
+    );
+
     showConfirmMessage();
     reset();
   };
