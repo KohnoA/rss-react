@@ -9,6 +9,7 @@ import {
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
+  tagTypes: ['Product'],
   endpoints: (builder) => ({
     getAllProducts: builder.query<IProduct[], string>({
       query: (filter?: string, page = 1, limit?: number) => ({
@@ -19,11 +20,13 @@ export const productApi = createApi({
           _limit: limit ?? LIMIT_ITEMS_IN_CARD_LIST,
         },
       }),
+      providesTags: ['Product'],
     }),
     getProduct: builder.query<IProduct, number>({
       query: (id: number) => ({
         url: `${API_ENDPOINT_CATALOG}/${id}`,
       }),
+      providesTags: ['Product'],
     }),
   }),
 });
