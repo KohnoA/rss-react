@@ -4,11 +4,7 @@ import { useAppDispatch } from 'src/hooks/redux';
 import { useAppSelector } from 'src/hooks/redux';
 import { saveSearchValue, deleteSearchValue } from 'src/store/reducers/searchSlice';
 
-interface SearchPanelProps {
-  changeFilter: (value: string) => void;
-}
-
-function SearchPanel({ changeFilter }: SearchPanelProps) {
+function SearchPanel() {
   const stateValue = useAppSelector((state) => state.search);
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>(stateValue);
@@ -17,14 +13,12 @@ function SearchPanel({ changeFilter }: SearchPanelProps) {
     if (value) dispatch(saveSearchValue(value));
     else dispatch(deleteSearchValue());
 
-    changeFilter(value);
     event.preventDefault();
   };
 
   const clearSearchPanel = () => {
     dispatch(deleteSearchValue());
     setValue('');
-    changeFilter('');
   };
 
   return (
