@@ -8,7 +8,7 @@ import Input from '../UI/formItems/Input/Input';
 import Select from '../UI/formItems/Select/Select';
 import Modal from '../UI/Modal/Modal';
 import { useAppDispatch } from 'src/hooks/redux';
-import { addUserCard } from 'src/store/reducers/userSlice';
+import { addUserCard } from 'src/store/slices/userSlice';
 
 interface FormInputs {
   title: string;

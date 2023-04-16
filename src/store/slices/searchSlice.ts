@@ -1,14 +1,22 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+interface ISearchState {
+  value: string;
+}
+
+const initialState: ISearchState = {
+  value: '',
+};
+
 export const searchSlice = createSlice({
   name: 'search',
-  initialState: '',
+  initialState,
   reducers: {
     saveSearchValue(state, action: PayloadAction<string>) {
-      return (state = action.payload);
+      state.value = action.payload;
     },
     deleteSearchValue(state) {
-      return (state = '');
+      state.value = '';
     },
   },
 });

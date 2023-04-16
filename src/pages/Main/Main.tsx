@@ -7,7 +7,7 @@ import { useGetAllProductsQuery } from 'src/services/ProductService';
 import styles from './Main.module.scss';
 
 export default function Main() {
-  const searchQuery = useAppSelector((state) => state.search);
+  const searchQuery = useAppSelector((state) => state.search.value);
   const { data: products, isFetching, isError } = useGetAllProductsQuery(searchQuery);
 
   const handleCardList = (): React.ReactNode => {

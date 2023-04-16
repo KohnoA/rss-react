@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styles from './SearchPanel.module.scss';
 import { useAppDispatch } from 'src/hooks/redux';
 import { useAppSelector } from 'src/hooks/redux';
-import { saveSearchValue, deleteSearchValue } from 'src/store/reducers/searchSlice';
+import { saveSearchValue, deleteSearchValue } from 'src/store/slices/searchSlice';
 
 function SearchPanel() {
-  const stateValue = useAppSelector((state) => state.search);
+  const stateValue = useAppSelector((state) => state.search.value);
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>(stateValue);
 

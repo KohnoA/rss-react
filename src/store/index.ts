@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { searchSlice } from './reducers/searchSlice';
-import { userSlice } from './reducers/userSlice';
+import { searchSlice } from './slices/searchSlice';
+import { userSlice } from './slices/userSlice';
 import { productApi } from 'src/services/ProductService';
 
 const store = configureStore({
