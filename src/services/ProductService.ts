@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IProduct } from 'src/types/IProduct';
-
-const API_BASE_URL = 'https://mock-server-api-alpha.vercel.app';
-const API_ENDPOINT_CATALOG = '/catalog';
-const LIMIT_ITEMS_IN_CARD_LIST = 12;
+import {
+  API_BASE_URL,
+  API_ENDPOINT_CATALOG,
+  LIMIT_ITEMS_IN_CARD_LIST,
+} from 'src/constants/constants';
 
 export const productApi = createApi({
   reducerPath: 'productApi',
