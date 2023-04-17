@@ -3,7 +3,6 @@ import Card from '../Card/Card';
 import { IProduct } from 'src/types/IProduct';
 import CardDetails from '../CardDetails/CardDetails';
 import { useState } from 'react';
-import Modal from '../UI/Modal/Modal';
 
 interface CardListProps {
   cardsData: IProduct[];
@@ -21,9 +20,9 @@ export default function CardList({ cardsData, emptyMessage }: CardListProps) {
         ))}
       </div>
 
-      <Modal isActive={!!currentCardId} onClose={() => setCurrentCardId(null)}>
-        {!!currentCardId && <CardDetails id={currentCardId} />}
-      </Modal>
+      {!!currentCardId && (
+        <CardDetails id={currentCardId} hideDetails={() => setCurrentCardId(null)} />
+      )}
     </>
   ) : (
     <div className={styles.cardList__noData}>{emptyMessage || 'Cards not found'} 😞</div>
