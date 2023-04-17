@@ -1,14 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import Main from './Main';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithProvider } from 'src/tests/renderWithProvider';
 
 describe('testing Main component', () => {
   it('should be displayed', () => {
-    render(
-      <MemoryRouter>
-        <Main />
-      </MemoryRouter>
-    );
+    renderWithProvider(<Main />);
 
     expect(screen.getByTestId('page-main')).toBeInTheDocument();
     expect(screen.getByText(/Main/i)).toBeInTheDocument();

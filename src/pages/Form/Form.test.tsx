@@ -1,8 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import Form from './Form';
+import { renderWithProvider } from 'src/tests/renderWithProvider';
 
 describe('testing Form component', () => {
-  beforeEach(() => render(<Form />));
+  beforeEach(() => {
+    renderWithProvider(<Form />);
+  });
 
   it('should be displayed', () => {
     expect(screen.getByTestId('page-form')).toBeInTheDocument();

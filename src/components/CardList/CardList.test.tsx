@@ -1,13 +1,12 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import CardList from './CardList';
 import { IProduct } from 'src/types/IProduct';
-import axios from 'axios';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
+import * as api from 'src/services/ProductService';
+
+const useGetProductQueryMock = vi.spyOn(api, 'useGetProductQuery');
 
 describe('testing CardList component', () => {
-  vi.mock('axios');
-  const mockAxios = axios as jest.Mocked<typeof axios>;
-
   const mockData: IProduct[] = [
     {
       id: 1,
@@ -44,10 +43,6 @@ describe('testing CardList component', () => {
     },
   ];
 
-  beforeEach(() => {
-    mockAxios.get.mockReset();
-  });
-
   afterAll(() => {
     vi.clearAllMocks;
     vi.resetAllMocks;
@@ -67,7 +62,7 @@ describe('testing CardList component', () => {
   });
 
   it('clicking on the card should show the details', async () => {
-    mockAxios.get.mockResolvedValue({ data: mockData[0] });
+    (useGetProductQueryMock as Mock).mockReturnValue({ data: mockData[0] });
     render(<CardList cardsData={mockData} />);
 
     fireEvent.click(screen.getAllByTestId('card')[0]);

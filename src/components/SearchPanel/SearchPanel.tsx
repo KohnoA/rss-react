@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styles from './SearchPanel.module.scss';
-import { useAppDispatch } from 'src/hooks/redux';
-import { useAppSelector } from 'src/hooks/redux';
 import { saveSearchValue, deleteSearchValue } from 'src/store/slices/searchSlice';
+import { useAppDispatch, useAppSelector } from 'src/hooks/redux';
 
 function SearchPanel() {
   const stateValue = useAppSelector((state) => state.search.value);

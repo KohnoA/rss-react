@@ -4,7 +4,7 @@ import Loader from '../UI/Loader/Loader';
 import { useGetProductQuery } from 'src/services/ProductService';
 import { IProduct } from '../../types/IProduct';
 
-const emptyProduct: Record<keyof Omit<IProduct, 'id'>, string> = {
+const emptyProduct: Record<keyof Omit<IProduct, 'id' | 'isUserCard'>, string> = {
   title: 'No Data',
   price: 'No Data',
   image: '',

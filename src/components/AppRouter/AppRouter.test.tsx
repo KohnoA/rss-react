@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import App from 'src/App';
+import { renderWithProvider } from 'src/tests/renderWithProvider';
 
 describe('testing AppRouter', () => {
   it('route "/" should lead to the main page', () => {
-    render(
+    renderWithProvider(
       <MemoryRouter initialEntries={['/']}>
         <App />
       </MemoryRouter>

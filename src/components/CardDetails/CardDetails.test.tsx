@@ -1,13 +1,13 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import CardDetails from './CardDetails';
-import axios from 'axios';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 import { IProduct } from 'src/types/IProduct';
+import { renderWithProvider } from 'src/tests/renderWithProvider';
+import * as api from 'src/services/ProductService';
+
+const useGetProductQueryMock = vi.spyOn(api, 'useGetProductQuery');
 
 describe('testing CardDetails component', () => {
-  vi.mock('axios');
-  const mockAxios = axios as jest.Mocked<typeof axios>;
-
   const mockData: IProduct = {
     id: 1,
     title: 'Test title',
@@ -21,20 +21,14 @@ describe('testing CardDetails component', () => {
     description: 'Test description',
   };
 
-  const renderComponent = () => render(<CardDetails id={mockData.id} />);
-
-  beforeEach(() => {
-    mockAxios.get.mockReset();
-  });
-
   afterAll(() => {
     vi.clearAllMocks;
     vi.resetAllMocks;
   });
 
   it('should be displayed', async () => {
-    mockAxios.get.mockResolvedValue({ data: mockData });
-    renderComponent();
+    (useGetProductQueryMock as Mock).mockReturnValue({ data: mockData });
+    renderWithProvider(<CardDetails id={mockData.id} />);
 
     await waitFor(() => {
       expect(screen.getByTestId('details')).toBeInTheDocument();
@@ -54,11 +48,13 @@ describe('testing CardDetails component', () => {
   });
 
   it('Should show error on request error', async () => {
-    mockAxios.get.mockRejectedValue({ message: 'Test error' });
-    renderComponent();
+    (useGetProductQueryMock as Mock).mockReturnValue({ isError: true });
+    renderWithProvider(<CardDetails id={mockData.id} />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Test error/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Something went wrong, please try again later./i)
+      ).toBeInTheDocument();
     });
   });
 });

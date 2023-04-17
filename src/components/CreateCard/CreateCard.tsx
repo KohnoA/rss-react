@@ -7,8 +7,8 @@ import Group from '../UI/formItems/Group/Group';
 import Input from '../UI/formItems/Input/Input';
 import Select from '../UI/formItems/Select/Select';
 import Modal from '../UI/Modal/Modal';
-import { useAppDispatch } from 'src/hooks/redux';
 import { addUserCard } from 'src/store/slices/userSlice';
+import { useAppDispatch } from 'src/hooks/redux';
 
 interface FormInputs {
   title: string;
