@@ -32,8 +32,8 @@ export default function CreateCard() {
   } = useForm<FormInputs>({ reValidateMode: 'onSubmit' });
 
   const showConfirmMessage = () => {
-    setConfirm((prev) => !prev);
-    setTimeout(() => setConfirm((prev) => !prev), 1000);
+    setConfirm(true);
+    setTimeout(() => setConfirm(false), 1000);
   };
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
