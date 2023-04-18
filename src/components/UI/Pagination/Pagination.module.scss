@@ -1,0 +1,18 @@
+@import '../../../styles/variables.scss';
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  &__current {
+    color: $mainColor;
+
+    background-color: $activeColor;
+    border: 2px solid $activeColor;
+
+    pointer-events: none;
+    user-select: none;
+  }
+}

@@ -1,0 +1,18 @@
+.cardList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 40px;
+
+  margin-bottom: 30px;
+
+  &__noData {
+    margin-bottom: 30px;
+
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  &__error {
+    text-align: center;
+  }
+}
