@@ -1,33 +1,40 @@
+import { LIMIT_ITEMS_IN_CARD_LIST } from 'src/constants/constants';
 import Button from '../Button/Button';
 import styles from './Pagination.module.scss';
-import { LOCALSTORAGE_CURRENT_PAGE } from 'src/constants/constants';
 
 interface PaginationProps {
-  current: number;
-  total: number;
+  currentPage: number;
+  totalItems: number;
   setCurrentPage: (currentPage: number) => void;
 }
 
-export default function Pagination({ current, total, setCurrentPage }: PaginationProps) {
+export default function Pagination({ currentPage, totalItems, setCurrentPage }: PaginationProps) {
+  const totalPages = Math.ceil(totalItems / LIMIT_ITEMS_IN_CARD_LIST);
+
   const currentPageHandler = (page: number) => {
     setCurrentPage(page);
-    localStorage.setItem(LOCALSTORAGE_CURRENT_PAGE, String(page));
   };
 
   return (
-    <div className={styles.pagination}>
-      {new Array(total).fill(total).map((_, index) => {
-        const numberOfPage = index + 1;
+    <>
+      {totalItems > LIMIT_ITEMS_IN_CARD_LIST && (
+        <div className={styles.pagination}>
+          {new Array(totalPages).fill(totalPages).map((_, index) => {
+            const numberOfPage = index + 1;
 
-        return (
-          <Button
-            key={numberOfPage}
-            onClick={() => currentPageHandler(numberOfPage)}
-            text={`${numberOfPage}`}
-            {...(numberOfPage === current ? { additionalClasses: styles.pagination__current } : {})}
-          />
-        );
-      })}
-    </div>
+            return (
+              <Button
+                key={numberOfPage}
+                onClick={() => currentPageHandler(numberOfPage)}
+                text={`${numberOfPage}`}
+                {...(numberOfPage === currentPage
+                  ? { additionalClasses: styles.pagination__current }
+                  : {})}
+              />
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 }

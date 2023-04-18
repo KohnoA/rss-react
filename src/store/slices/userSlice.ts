@@ -1,12 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { LIMIT_ITEMS_IN_CARD_LIST } from 'src/constants/constants';
 import { IProduct } from 'src/types/IProduct';
 
 interface IUserState {
-  cards: IProduct[];
+  cards: [IProduct[]];
 }
 
 const initialState: IUserState = {
-  cards: [],
+  cards: [[]],
 };
 
 export const userSlice = createSlice({
@@ -14,7 +15,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addUserCard(state, action: PayloadAction<IProduct>) {
-      state.cards.push(action.payload);
+      const currentPage = state.cards.find((page) => page.length < LIMIT_ITEMS_IN_CARD_LIST);
+
+      currentPage ? currentPage.push(action.payload) : state.cards.push([action.payload]);
     },
   },
 });

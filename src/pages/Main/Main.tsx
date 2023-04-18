@@ -1,24 +1,24 @@
-import React from 'react';
 import SearchPanel from 'src/components/SearchPanel/SearchPanel';
 import CardList from 'src/components/CardList/CardList';
-import Loader from 'src/components/UI/Loader/Loader';
 import { useGetAllProductsQuery } from 'src/services/ProductService';
-import styles from './Main.module.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useAppSelector } from 'src/hooks/redux';
+import { TOTAL_COUNT_DEFAULT_VALUE } from 'src/constants/constants';
+import { setPageInMainCardList } from 'src/store/slices/paginationSlice';
+import { usePagination } from 'src/hooks/usePagination';
 
 export default function Main() {
-  const searchQuery = useSelector<RootState>((state) => state.search.value) as string;
-  const { data: products, isFetching, isError } = useGetAllProductsQuery(searchQuery);
-
-  const handleCardList = (): React.ReactNode => {
-    if (isFetching) {
-      return <Loader />;
-    } else if (isError) {
-      return <p className={styles.main__error}>Something went wrong, please try again later.</p>;
-    } else {
-      return <CardList cardsData={products ?? []} />;
-    }
+  const searchQuery = useAppSelector((state) => state.search.value);
+  const [currentPage, setCurrentPage] = usePagination(
+    (state) => state.pagination.mainCardList,
+    setPageInMainCardList
+  );
+  const { data, isFetching, isError } = useGetAllProductsQuery({
+    filter: searchQuery,
+    page: currentPage,
+  });
+  const { response, totalCount: totalItems } = data ?? {
+    response: [],
+    totalCount: TOTAL_COUNT_DEFAULT_VALUE,
   };
 
   return (
@@ -27,7 +27,16 @@ export default function Main() {
 
       <SearchPanel />
 
-      {handleCardList()}
+      <CardList
+        cardsData={response}
+        isLoading={isFetching}
+        isError={isError}
+        pagination={{
+          totalItems,
+          currentPage,
+          setCurrentPage,
+        }}
+      />
     </div>
   );
 }
