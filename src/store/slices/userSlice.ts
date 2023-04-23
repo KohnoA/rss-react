@@ -7,7 +7,7 @@ interface IUserState {
 }
 
 const initialState: IUserState = {
-  cards: [],
+  cards: [[]],
 };
 
 export const userSlice = createSlice({
