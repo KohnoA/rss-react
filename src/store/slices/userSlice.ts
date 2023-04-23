@@ -3,11 +3,11 @@ import { LIMIT_ITEMS_IN_CARD_LIST } from 'src/constants/constants';
 import { IProduct } from 'src/types/IProduct';
 
 interface IUserState {
-  cards: [IProduct[]];
+  cards: Array<IProduct[]>;
 }
 
 const initialState: IUserState = {
-  cards: [[]],
+  cards: [],
 };
 
 export const userSlice = createSlice({
