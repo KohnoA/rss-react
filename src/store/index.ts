@@ -3,12 +3,14 @@ import { searchSlice } from './slices/searchSlice';
 import { userSlice } from './slices/userSlice';
 import { productApi } from 'src/services/ProductService';
 import { paginationSlice } from './slices/paginationSlice';
+import { cardDetailsSlice } from './slices/cardDetailsSlice';
 
 const store = configureStore({
   reducer: {
     [searchSlice.name]: searchSlice.reducer,
     [userSlice.name]: userSlice.reducer,
     [paginationSlice.name]: paginationSlice.reducer,
+    [cardDetailsSlice.name]: cardDetailsSlice.reducer,
     [productApi.reducerPath]: productApi.reducer,
   },
 

@@ -2,17 +2,25 @@ import { IProduct } from 'src/types/IProduct';
 import Button from '../UI/Button/Button';
 import styles from './Card.module.scss';
 import React from 'react';
+import { useAppDispatch } from 'src/hooks/redux';
+import { showDetails } from 'src/store/slices/cardDetailsSlice';
 
 interface CardProps {
   data: IProduct;
-  showDetails: (id: number) => void;
 }
 
-function Card({ data, showDetails }: CardProps) {
+function Card({ data }: CardProps) {
   const { id, image, title, category, price, rate, date, condition, tags, isUserCard } = data;
+  const dispatch = useAppDispatch();
+
+  const showDetailsHandler = () => {
+    if (!isUserCard) {
+      dispatch(showDetails(id));
+    }
+  };
 
   return (
-    <div className={styles.card} data-testid="card" onClick={() => !isUserCard && showDetails(id)}>
+    <div className={styles.card} data-testid="card" onClick={showDetailsHandler}>
       {tags.map((item) => (
         <div
           key={item}

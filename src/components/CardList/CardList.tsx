@@ -2,9 +2,9 @@ import styles from './CardList.module.scss';
 import Card from '../Card/Card';
 import { IProduct } from 'src/types/IProduct';
 import CardDetails from '../CardDetails/CardDetails';
-import { useState } from 'react';
 import Loader from '../UI/Loader/Loader';
 import Pagination from '../UI/Pagination/Pagination';
+import { useAppSelector } from 'src/hooks/redux';
 
 interface CardListProps {
   cardsData: IProduct[];
@@ -20,7 +20,7 @@ interface CardListProps {
 }
 
 export default function CardList(props: CardListProps) {
-  const [currentCardId, setCurrentCardId] = useState<number | null>(null);
+  const currentCardId = useAppSelector((state) => state.cardDetails.cardId);
   const { cardsData, isLoading, isError, errorMessage, emptyMessage, pagination } = props;
 
   if (isLoading) {
@@ -43,15 +43,13 @@ export default function CardList(props: CardListProps) {
     <>
       <div className={styles.cardList} data-testid="card-list">
         {cardsData.map((item) => (
-          <Card key={item.id} data={item} showDetails={setCurrentCardId} />
+          <Card key={item.id} data={item} />
         ))}
       </div>
 
       {pagination && <Pagination {...pagination} />}
 
-      {!!currentCardId && (
-        <CardDetails id={currentCardId} hideDetails={() => setCurrentCardId(null)} />
-      )}
+      {currentCardId && <CardDetails id={currentCardId} />}
     </>
   );
 }

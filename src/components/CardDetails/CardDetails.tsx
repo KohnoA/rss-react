@@ -3,6 +3,8 @@ import styles from './CardDetails.module.scss';
 import { useGetProductQuery } from 'src/services/ProductService';
 import { IProduct } from '../../types/IProduct';
 import Modal from '../UI/Modal/Modal';
+import { useAppDispatch } from 'src/hooks/redux';
+import { closeDetails } from 'src/store/slices/cardDetailsSlice';
 
 const emptyProduct: Record<keyof Omit<IProduct, 'id' | 'isUserCard'>, string> = {
   title: 'No Data',
@@ -18,16 +20,16 @@ const emptyProduct: Record<keyof Omit<IProduct, 'id' | 'isUserCard'>, string> = 
 
 interface CardDetailsProps {
   id: number;
-  hideDetails: () => void;
 }
 
-export default function CardDetails({ id, hideDetails }: CardDetailsProps) {
+export default function CardDetails({ id }: CardDetailsProps) {
+  const dispatch = useAppDispatch();
   const { data: product, isFetching, isError } = useGetProductQuery(id);
   const { title, condition, price, category, rate, description, image, date, tags } =
     product ?? emptyProduct;
 
   return (
-    <Modal isActive={!!id} isLoading={isFetching} onClose={hideDetails}>
+    <Modal isActive={!!id} isLoading={isFetching} onClose={() => dispatch(closeDetails())}>
       {isError ? (
         <div className={styles.details__error}>Something went wrong, please try again later.</div>
       ) : (

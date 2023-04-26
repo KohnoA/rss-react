@@ -1,3 +1,4 @@
+import React from 'react';
 import { LIMIT_ITEMS_IN_CARD_LIST } from 'src/constants/constants';
 import Button from '../Button/Button';
 import styles from './Pagination.module.scss';
@@ -8,7 +9,7 @@ interface PaginationProps {
   setCurrentPage: (currentPage: number) => void;
 }
 
-export default function Pagination({ currentPage, totalItems, setCurrentPage }: PaginationProps) {
+function Pagination({ currentPage, totalItems, setCurrentPage }: PaginationProps) {
   const totalPages = Math.ceil(totalItems / LIMIT_ITEMS_IN_CARD_LIST);
 
   const currentPageHandler = (page: number) => {
@@ -38,3 +39,5 @@ export default function Pagination({ currentPage, totalItems, setCurrentPage }: 
     </>
   );
 }
+
+export default React.memo(Pagination);

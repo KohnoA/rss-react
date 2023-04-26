@@ -4,6 +4,7 @@ import styles from './Form.module.scss';
 import { useAppSelector } from 'src/hooks/redux';
 import { setPageInFormCardList } from 'src/store/slices/paginationSlice';
 import { usePagination } from 'src/hooks/usePagination';
+import { useMemo } from 'react';
 
 export default function Form() {
   const [currentPage, setCurrentPage] = usePagination(
@@ -12,7 +13,11 @@ export default function Form() {
   );
   const userCards = useAppSelector((state) => state.user.cards);
   const cardsInCurrentPage = userCards[currentPage - 1];
-  const totalItems = userCards.reduce((acc, next) => acc + next.length, 0);
+
+  const totalItems = useMemo(
+    () => userCards.reduce((acc, next) => acc + next.length, 0),
+    [userCards]
+  );
 
   return (
     <div className="container page" data-testid="page-form">
