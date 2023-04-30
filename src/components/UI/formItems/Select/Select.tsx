@@ -30,7 +30,11 @@ export default function Select({ caption, defaultOption, options, register, erro
         ))}
       </select>
 
-      {error && <span className={styles.formItem__errorMessage}>Please fill in the field</span>}
+      {error && (
+        <span className={styles.formItem__errorMessage} data-testid="error-message">
+          Please fill in the field
+        </span>
+      )}
     </label>
   );
 }

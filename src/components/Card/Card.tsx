@@ -38,7 +38,7 @@ function Card({ data }: CardProps) {
       />
 
       <div className={styles.card__infoWrapper}>
-        <p className={styles.card__title}>
+        <p className={styles.card__title} data-testid="card-title">
           {title} ({condition})
         </p>
 

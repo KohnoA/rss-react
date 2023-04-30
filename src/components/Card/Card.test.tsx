@@ -1,9 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { IProduct } from 'src/types/IProduct';
 import Card from './Card';
-import { vi } from 'vitest';
-
-const mockFn = vi.fn();
+import { renderWithProvider } from 'src/tests/renderWithProvider';
 
 const mockData: IProduct = {
   id: 1,
@@ -19,7 +17,7 @@ const mockData: IProduct = {
 
 describe('testing Card component', () => {
   beforeEach(() => {
-    render(<Card data={mockData} showDetails={mockFn} />);
+    renderWithProvider(<Card data={mockData} />);
   });
 
   it('should be displayed', () => {

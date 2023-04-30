@@ -30,7 +30,7 @@ export default function Input({
         {...otherAttr}
       />
       {error && (
-        <span className={styles.formItem__errorMessage}>
+        <span className={styles.formItem__errorMessage} data-testid="error-message">
           {error?.message || 'Please fill in the field'}
         </span>
       )}

@@ -30,7 +30,11 @@ export default function Group({ caption, type, items, register, error }: GroupPr
         </label>
       ))}
 
-      {error && <span className={styles.formItem__errorMessage}>Please select item</span>}
+      {error && (
+        <span className={styles.formItem__errorMessage} data-testid="error-message">
+          Please select item
+        </span>
+      )}
     </div>
   );
 }

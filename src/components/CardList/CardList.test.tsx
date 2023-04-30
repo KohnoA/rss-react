@@ -1,8 +1,9 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import CardList from './CardList';
 import { IProduct } from 'src/types/IProduct';
 import { Mock, vi } from 'vitest';
 import * as api from 'src/services/ProductService';
+import { renderWithProvider } from 'src/tests/renderWithProvider';
 
 const useGetProductQueryMock = vi.spyOn(api, 'useGetProductQuery');
 
@@ -49,13 +50,13 @@ describe('testing CardList component', () => {
   });
 
   it('should be displayed', () => {
-    render(<CardList cardsData={mockData} />);
+    renderWithProvider(<CardList cardsData={mockData} />);
 
     expect(screen.getByTestId('card-list')).toBeInTheDocument();
   });
 
   it('should display a list of cards', async () => {
-    render(<CardList cardsData={mockData} />);
+    renderWithProvider(<CardList cardsData={mockData} />);
 
     const cardsData = screen.getAllByTestId('card');
     expect(cardsData.length).toBe(mockData.length);
@@ -63,7 +64,7 @@ describe('testing CardList component', () => {
 
   it('clicking on the card should show the details', async () => {
     (useGetProductQueryMock as Mock).mockReturnValue({ data: mockData[0] });
-    render(<CardList cardsData={mockData} />);
+    renderWithProvider(<CardList cardsData={mockData} />);
 
     fireEvent.click(screen.getAllByTestId('card')[0]);
 
@@ -73,7 +74,7 @@ describe('testing CardList component', () => {
   });
 
   it('if there is no data, a message should be displayed', () => {
-    render(<CardList cardsData={[]} emptyMessage="Test message" />);
+    renderWithProvider(<CardList cardsData={[]} emptyMessage="Test message" />);
 
     expect(screen.getByText(/Test message/i)).toBeInTheDocument();
   });
