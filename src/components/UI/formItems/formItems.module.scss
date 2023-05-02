@@ -1,0 +1,64 @@
+.formItem {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    padding-left: 5px;
+    margin-bottom: 5px;
+  }
+
+  &__groupLabel {
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-bottom: 3px;
+
+    border-bottom: 2px solid #ccc;
+  }
+
+  &__input {
+    width: 100%;
+    height: 100%;
+
+    padding: 10px 15px;
+
+    font: inherit;
+
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    outline: none;
+    transition: 0.2s;
+
+    &:hover,
+    &:focus {
+      border: 2px solid #a9a9a9;
+    }
+  }
+
+  &__groupInput {
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+
+  &__input_error {
+    border: 2px solid rgba(255, 43, 43, 0.8);
+
+    &:hover,
+    &:focus {
+      border: 2px solid rgba(255, 43, 43, 0.8);
+    }
+  }
+
+  &__groupInput_error {
+    border-bottom: 2px solid rgba(255, 43, 43, 0.8);
+  }
+
+  &__errorMessage {
+    position: absolute;
+    bottom: -25px;
+    left: 5px;
+
+    color: red;
+  }
+}
