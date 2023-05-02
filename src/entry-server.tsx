@@ -2,20 +2,25 @@ import ReactDOMServer, { RenderToPipeableStreamOptions } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server';
 import App from './App';
 import { Provider } from 'react-redux';
-import store from './store';
+import { setupStore } from './store';
+import { productApi } from './services/ProductService';
 
-interface IRenderProps {
-  path: string;
-  options?: RenderToPipeableStreamOptions;
-}
+export async function render(path: string, options?: RenderToPipeableStreamOptions) {
+  const store = setupStore();
 
-export function render({ path, options }: IRenderProps) {
-  return ReactDOMServer.renderToPipeableStream(
-    <Provider store={store}>
-      <StaticRouter location={path}>
-        <App />
-      </StaticRouter>
-    </Provider>,
-    options
-  );
+  store.dispatch(productApi.endpoints.getAllProducts.initiate({ filter: '', page: 1 }));
+  await Promise.all(store.dispatch(productApi.util.getRunningQueriesThunk()));
+  const preloadedState = store.getState();
+
+  return [
+    ReactDOMServer.renderToPipeableStream(
+      <Provider store={store}>
+        <StaticRouter location={path}>
+          <App />
+        </StaticRouter>
+      </Provider>,
+      options
+    ),
+    preloadedState,
+  ];
 }

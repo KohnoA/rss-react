@@ -1,6 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getAllProductsArgs, getAllProductsReturn } from 'src/types/IProductService';
 import { IProduct } from 'src/types/IProduct';
+import {
+  buildCreateApi,
+  coreModule,
+  fetchBaseQuery,
+  reactHooksModule,
+} from '@reduxjs/toolkit/query/react';
 import {
   API_BASE_URL,
   API_ENDPOINT_CATALOG,
@@ -8,6 +13,11 @@ import {
   START_PAGE,
   TOTAL_COUNT_DEFAULT_VALUE,
 } from 'src/constants/constants';
+
+const createApi = buildCreateApi(
+  coreModule(),
+  reactHooksModule({ unstable__sideEffectsInRender: true })
+);
 
 export const productApi = createApi({
   reducerPath: 'productApi',

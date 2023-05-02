@@ -5,7 +5,7 @@ describe('testing Main page', () => {
     cy.visit('/');
 
     cy.get('input[placeholder="I want to find..."]').should('have.value', '');
-    cy.get('button').should('have.text', 'Search');
+    cy.get('button[type=submit]').should('have.text', 'Search');
     cy.get('input[placeholder="I want to find..."]')
       .type('iPhone X')
       .should('have.value', 'iPhone X');

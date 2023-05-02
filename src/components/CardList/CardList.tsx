@@ -5,6 +5,7 @@ import CardDetails from '../CardDetails/CardDetails';
 import Loader from '../UI/Loader/Loader';
 import Pagination from '../UI/Pagination/Pagination';
 import { useAppSelector } from 'src/hooks/redux';
+import { useEffect, useState } from 'react';
 
 interface CardListProps {
   cardsData: IProduct[];
@@ -20,8 +21,11 @@ interface CardListProps {
 }
 
 export default function CardList(props: CardListProps) {
-  const currentCardId = useAppSelector((state) => state.cardDetails.cardId);
+  const [detailsId, setDetailsId] = useState<number | null>(null);
+  const stateDetailsId = useAppSelector((state) => state.cardDetails.cardId);
   const { cardsData, isLoading, isError, errorMessage, emptyMessage, pagination } = props;
+
+  useEffect(() => setDetailsId(stateDetailsId), [stateDetailsId]);
 
   if (isLoading) {
     return <Loader />;
@@ -49,7 +53,7 @@ export default function CardList(props: CardListProps) {
 
       {pagination && <Pagination {...pagination} />}
 
-      {currentCardId && <CardDetails id={currentCardId} />}
+      {detailsId && <CardDetails id={detailsId} />}
     </>
   );
 }

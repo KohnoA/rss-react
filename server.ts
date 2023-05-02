@@ -28,19 +28,25 @@ async function createServer() {
 
       const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
-      res.write(html[0]);
+      const [stream, preloadedState] = await render(url, {
+        onShellReady() {
+          res.write(html[0]);
+          stream.pipe(res);
+        },
 
-      const { pipe } = await render({
-        path: url,
-        options: {
-          onShellReady() {
-            pipe(res);
-          },
-
-          onAllReady() {
-            res.write(html[1]);
-            res.end();
-          },
+        onAllReady() {
+          res.write(
+            html[1].replace(
+              '<!--ssr-state-->',
+              `<script>
+                window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
+                  /</g,
+                  '\\u003c'
+                )}
+              </script>`
+            )
+          );
+          res.end();
         },
       });
     } catch (error) {
@@ -51,7 +57,7 @@ async function createServer() {
     }
   });
 
-  app.listen(PORT);
+  app.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`));
 }
 
 createServer();

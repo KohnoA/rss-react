@@ -5,9 +5,11 @@ import { useAppSelector } from 'src/hooks/redux';
 import { TOTAL_COUNT_DEFAULT_VALUE } from 'src/constants/constants';
 import { setPageInMainCardList } from 'src/store/slices/paginationSlice';
 import { usePagination } from 'src/hooks/usePagination';
+import { useEffect, useState } from 'react';
 
 export default function Main() {
-  const searchQuery = useAppSelector((state) => state.search.value);
+  const stateSearchQuery = useAppSelector((state) => state.search.value);
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = usePagination(
     (state) => state.pagination.mainCardList,
     setPageInMainCardList
@@ -20,6 +22,8 @@ export default function Main() {
     response: [],
     totalCount: TOTAL_COUNT_DEFAULT_VALUE,
   };
+
+  useEffect(() => setSearchQuery(stateSearchQuery), [stateSearchQuery]);
 
   return (
     <div className="container page" data-testid="page-main">
