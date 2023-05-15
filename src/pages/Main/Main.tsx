@@ -1,61 +1,42 @@
-import { useEffect, useState } from 'react';
 import SearchPanel from 'src/components/SearchPanel/SearchPanel';
-import Pagination from 'src/components/UI/Pagination/Pagination';
 import CardList from 'src/components/CardList/CardList';
-import Loader from 'src/components/UI/Loader/Loader';
-import ProductService from 'src/API/ProductService';
-import { IProduct } from 'src/types/IProduct';
-import {
-  LOCALSTORAGE_SEARCH,
-  LOCALSTORAGE_CURRENT_PAGE,
-  DEFAULT_PAGE_LIMIT,
-} from 'src/constants/constants';
+import { useGetAllProductsQuery } from 'src/services/ProductService';
+import { useAppSelector } from 'src/hooks/redux';
+import { TOTAL_COUNT_DEFAULT_VALUE } from 'src/constants/constants';
+import { setPageInMainCardList } from 'src/store/slices/paginationSlice';
+import { usePagination } from 'src/hooks/usePagination';
 
 export default function Main() {
-  const [cardsData, setCardsData] = useState<IProduct[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [filter, setFilter] = useState(localStorage.getItem(LOCALSTORAGE_SEARCH) ?? '');
-  const [isShowPagination, setIsShowPagination] = useState<boolean>(false);
-  const [totalPages, setTotalPages] = useState<number>();
-  const [currentPage, setCurrentPage] = useState<number>(() => {
-    const saveCurrentPage = localStorage.getItem(LOCALSTORAGE_CURRENT_PAGE);
-    const initialPage = 1;
-
-    return saveCurrentPage ? Number(saveCurrentPage) : initialPage;
+  const searchQuery = useAppSelector((state) => state.search.value);
+  const [currentPage, setCurrentPage] = usePagination(
+    (state) => state.pagination.mainCardList,
+    setPageInMainCardList
+  );
+  const { data, isFetching, isError } = useGetAllProductsQuery({
+    filter: searchQuery,
+    page: currentPage,
   });
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    ProductService.getAll(filter, currentPage)
-      .then((res) => {
-        const [cards, total] = res;
-
-        setCardsData(cards);
-        setTotalPages(Math.ceil(total / DEFAULT_PAGE_LIMIT));
-        setIsShowPagination(total > DEFAULT_PAGE_LIMIT);
-      })
-      .catch((err) => console.error(err.message))
-      .finally(() => setIsLoading(false));
-  }, [filter, currentPage]);
+  const { response, totalCount: totalItems } = data ?? {
+    response: [],
+    totalCount: TOTAL_COUNT_DEFAULT_VALUE,
+  };
 
   return (
     <div className="container page" data-testid="page-main">
       <h2 className="title">Main</h2>
 
-      <SearchPanel changeFilter={setFilter} />
+      <SearchPanel />
 
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <CardList cardsData={cardsData} />
-
-          {isShowPagination && totalPages && (
-            <Pagination current={currentPage} total={totalPages} setCurrentPage={setCurrentPage} />
-          )}
-        </>
-      )}
+      <CardList
+        cardsData={response}
+        isLoading={isFetching}
+        isError={isError}
+        pagination={{
+          totalItems,
+          currentPage,
+          setCurrentPage,
+        }}
+      />
     </div>
   );
 }

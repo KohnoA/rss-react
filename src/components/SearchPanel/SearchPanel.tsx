@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
 import styles from './SearchPanel.module.scss';
-import { LOCALSTORAGE_SEARCH } from 'src/constants/constants';
+import { saveSearchValue, deleteSearchValue } from 'src/store/slices/searchSlice';
+import { useAppDispatch, useAppSelector } from 'src/hooks/redux';
+import { setPageInMainCardList } from 'src/store/slices/paginationSlice';
+import { START_PAGE } from 'src/constants/constants';
 
-interface SearchPanelProps {
-  changeFilter: (value: string) => void;
-}
-
-function SearchPanel({ changeFilter }: SearchPanelProps) {
-  const [value, setValue] = useState<string>(localStorage.getItem(LOCALSTORAGE_SEARCH) ?? '');
+function SearchPanel() {
+  const stateValue = useAppSelector((state) => state.search.value);
+  const [value, setValue] = useState<string>(stateValue);
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (event: React.FormEvent) => {
-    if (value) localStorage.setItem(LOCALSTORAGE_SEARCH, value);
-    else localStorage.removeItem(LOCALSTORAGE_SEARCH);
+    dispatch(setPageInMainCardList(START_PAGE));
 
-    changeFilter(value);
+    if (value) dispatch(saveSearchValue(value));
+    else dispatch(deleteSearchValue());
+
     event.preventDefault();
   };
 
   const clearSearchPanel = () => {
-    localStorage.removeItem(LOCALSTORAGE_SEARCH);
+    dispatch(deleteSearchValue());
+    dispatch(setPageInMainCardList(START_PAGE));
     setValue('');
-    changeFilter('');
   };
 
   return (

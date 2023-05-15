@@ -1,11 +1,12 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import App from 'src/App';
 import Navigation from './Navigation';
+import { renderWithProvider } from 'src/tests/renderWithProvider';
 
 describe('testing Navigation component', () => {
   it('should be displayed', () => {
-    render(
+    renderWithProvider(
       <MemoryRouter>
         <Navigation />
       </MemoryRouter>
@@ -17,7 +18,7 @@ describe('testing Navigation component', () => {
   });
 
   it('route transitions should work correctly', () => {
-    render(
+    renderWithProvider(
       <MemoryRouter>
         <App />
       </MemoryRouter>

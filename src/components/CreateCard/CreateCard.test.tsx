@@ -1,12 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CreateCard from './CreateCard';
-import { vi } from 'vitest';
-
-const mockAddCard = vi.fn();
+import { renderWithProvider } from 'src/tests/renderWithProvider';
 
 describe('testing CreateCard component', () => {
-  beforeEach(() => render(<CreateCard handlerAddCard={mockAddCard} />));
+  beforeEach(() => renderWithProvider(<CreateCard />));
 
   it('should be displayed', () => {
     expect(screen.getByTestId('create-card')).toBeInTheDocument();

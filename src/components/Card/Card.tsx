@@ -9,10 +9,10 @@ interface CardProps {
 }
 
 function Card({ data, showDetails }: CardProps) {
-  const { image, title, category, price, rate, date, condition, tags } = data;
+  const { id, image, title, category, price, rate, date, condition, tags, isUserCard } = data;
 
   return (
-    <div className={styles.card} data-testid="card" onClick={() => showDetails(data.id)}>
+    <div className={styles.card} data-testid="card" onClick={() => !isUserCard && showDetails(id)}>
       {tags.map((item) => (
         <div
           key={item}

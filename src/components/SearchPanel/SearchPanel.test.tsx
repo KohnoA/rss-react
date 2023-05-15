@@ -1,18 +1,16 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import SearchPanel from './SearchPanel';
-import { vi } from 'vitest';
-
-const mockFunc = vi.fn();
+import { renderWithProvider } from 'src/tests/renderWithProvider';
 
 describe('testing SearchPanel component', () => {
   it('should be displayed', () => {
-    render(<SearchPanel changeFilter={mockFunc} />);
+    renderWithProvider(<SearchPanel />);
 
     expect(screen.getByTestId('search-panel')).toBeInTheDocument();
   });
 
   it('should be displayed correctly, with cross and search button', () => {
-    render(<SearchPanel changeFilter={mockFunc} />);
+    renderWithProvider(<SearchPanel />);
 
     expect(screen.getByPlaceholderText(/I want to find.../i)).toBeInTheDocument();
     expect(screen.getByTestId('clean-button')).toBeInTheDocument();
@@ -20,7 +18,7 @@ describe('testing SearchPanel component', () => {
   });
 
   it('the cross and search button should be displayed if input is not empty', () => {
-    render(<SearchPanel changeFilter={mockFunc} />);
+    renderWithProvider(<SearchPanel />);
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -32,7 +30,7 @@ describe('testing SearchPanel component', () => {
   });
 
   it('the input should be cleared when you click on the cross', () => {
-    render(<SearchPanel changeFilter={mockFunc} />);
+    renderWithProvider(<SearchPanel />);
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -44,7 +42,7 @@ describe('testing SearchPanel component', () => {
   });
 
   it('When the component is unmounted, the form value must be preserved', () => {
-    const { unmount } = render(<SearchPanel changeFilter={mockFunc} />);
+    const { unmount } = renderWithProvider(<SearchPanel />);
     const input = screen.getByPlaceholderText(/I want to find.../i);
 
     fireEvent.change(input, {
@@ -52,7 +50,7 @@ describe('testing SearchPanel component', () => {
     });
 
     unmount();
-    render(<SearchPanel changeFilter={mockFunc} />);
+    renderWithProvider(<SearchPanel />);
 
     expect(input).toHaveValue('T-Shirt');
   });

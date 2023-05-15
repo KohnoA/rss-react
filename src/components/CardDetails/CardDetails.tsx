@@ -1,82 +1,80 @@
 import Button from '../UI/Button/Button';
 import styles from './CardDetails.module.scss';
-import { IProduct } from 'src/types/IProduct';
-import { useEffect, useState } from 'react';
-import ProductService from 'src/API/ProductService';
-import Loader from '../UI/Loader/Loader';
+import { useGetProductQuery } from 'src/services/ProductService';
+import { IProduct } from '../../types/IProduct';
+import Modal from '../UI/Modal/Modal';
+
+const emptyProduct: Record<keyof Omit<IProduct, 'id' | 'isUserCard'>, string> = {
+  title: 'No Data',
+  price: 'No Data',
+  image: '',
+  rate: 'No Data',
+  date: 'MM-DD-YYYY',
+  category: 'No Data',
+  condition: 'No Data',
+  tags: 'No Data',
+  description: 'No Data',
+};
 
 interface CardDetailsProps {
   id: number;
+  hideDetails: () => void;
 }
 
-export default function CardDetails({ id }: CardDetailsProps) {
-  const [cardData, setCardData] = useState<IProduct>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
-
-  useEffect(() => {
-    setIsLoading(true);
-    ProductService.getItem(id)
-      .then((res) => setCardData(res))
-      .catch((err) => setError(err.message))
-      .finally(() => setIsLoading(false));
-  }, [id]);
-
-  if (error) {
-    return <div className={styles.details__error}>{error}</div>;
-  }
-
-  if (isLoading) {
-    return (
-      <div className={styles.details__loader}>
-        <Loader />
-      </div>
-    );
-  }
+export default function CardDetails({ id, hideDetails }: CardDetailsProps) {
+  const { data: product, isFetching, isError } = useGetProductQuery(id);
+  const { title, condition, price, category, rate, description, image, date, tags } =
+    product ?? emptyProduct;
 
   return (
-    <div className={styles.details} data-testid="details">
-      <h2 className={styles.details__title}>
-        {cardData?.title ?? 'No Data'} ({cardData?.condition ?? 'No Data'})
-      </h2>
+    <Modal isActive={!!id} isLoading={isFetching} onClose={hideDetails}>
+      {isError ? (
+        <div className={styles.details__error}>Something went wrong, please try again later.</div>
+      ) : (
+        <div className={styles.details} data-testid="details">
+          <h2 className={styles.details__title}>
+            {title} ({condition})
+          </h2>
 
-      <span
-        data-testid="details-image"
-        className={styles.details__image}
-        style={{ backgroundImage: `url(${cardData?.image})` }}
-      />
+          <span
+            data-testid="details-image"
+            className={styles.details__image}
+            {...(image ? { style: { backgroundImage: `url(${image})` } } : {})}
+          />
 
-      <ul className={styles.details__info}>
-        <li className={styles.details__infoItem}>
-          <b>Date of purchase: </b>
-          {cardData?.date.replace(/-/g, '.') ?? 'No Data'}
-        </li>
+          <ul className={styles.details__info}>
+            <li className={styles.details__infoItem}>
+              <b>Date of purchase: </b>
+              {date.replace(/-/g, '.')}
+            </li>
 
-        <li className={styles.details__infoItem}>
-          <b>Category: </b>
-          {cardData?.category ?? 'No Data'}
-        </li>
+            <li className={styles.details__infoItem}>
+              <b>Category: </b>
+              {category}
+            </li>
 
-        <li className={styles.details__infoItem}>
-          <b>Price:</b> &#8364;{cardData?.price ?? 'No Data'}
-        </li>
+            <li className={styles.details__infoItem}>
+              <b>Price:</b> &#8364;{price}
+            </li>
 
-        <li className={styles.details__infoItem}>
-          <b>Rate: </b>
-          {cardData?.rate ?? 'No Data'}
-        </li>
+            <li className={styles.details__infoItem}>
+              <b>Rate: </b>
+              {rate}
+            </li>
 
-        <li className={styles.details__infoItem}>
-          <b>Tags: </b>
-          <i>{cardData?.tags.map((item) => `#${item}`).join(' ') || 'No Data'}</i>
-        </li>
+            <li className={styles.details__infoItem}>
+              <b>Tags: </b>
+              <i>{Array.isArray(tags) ? tags.map((item) => `#${item}`).join(' ') : tags}</i>
+            </li>
 
-        <li className={styles.details__infoItem}>
-          <b>Description:</b> {cardData?.description ?? 'No Data'}
-        </li>
+            <li className={styles.details__infoItem}>
+              <b>Description:</b> {description}
+            </li>
 
-        <Button text="Buy Now" additionalClasses={styles.details__button} />
-      </ul>
-    </div>
+            <Button text="Buy Now" additionalClasses={styles.details__button} />
+          </ul>
+        </div>
+      )}
+    </Modal>
   );
 }

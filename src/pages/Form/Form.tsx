@@ -1,23 +1,34 @@
-import { useState } from 'react';
 import CreateCard from 'src/components/CreateCard/CreateCard';
 import CardList from 'src/components/CardList/CardList';
-import { IProduct } from 'src/types/IProduct';
 import styles from './Form.module.scss';
+import { useAppSelector } from 'src/hooks/redux';
+import { setPageInFormCardList } from 'src/store/slices/paginationSlice';
+import { usePagination } from 'src/hooks/usePagination';
 
 export default function Form() {
-  const [userCards, setUserCards] = useState<IProduct[]>([]);
-
-  const handlerAddCard = (newCard: IProduct): void => {
-    setUserCards([...userCards, newCard]);
-  };
+  const [currentPage, setCurrentPage] = usePagination(
+    (state) => state.pagination.formCardList,
+    setPageInFormCardList
+  );
+  const userCards = useAppSelector((state) => state.user.cards);
+  const cardsInCurrentPage = userCards[currentPage - 1];
+  const totalItems = userCards.reduce((acc, next) => acc + next.length, 0);
 
   return (
     <div className="container page" data-testid="page-form">
       <h2 className="title">Form</h2>
-      <CreateCard handlerAddCard={handlerAddCard} />
+      <CreateCard />
 
       <h3 className={styles.form__subtitle}>Your Cards</h3>
-      <CardList cardsData={userCards} emptyMessage="No cards yet" />
+      <CardList
+        cardsData={cardsInCurrentPage}
+        emptyMessage="No cards yet"
+        pagination={{
+          currentPage,
+          totalItems,
+          setCurrentPage,
+        }}
+      />
     </div>
   );
 }
